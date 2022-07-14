@@ -17,12 +17,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("/test", () => "testado");
+
 app.MapPost("/sendMessage", async (IMessageServices msgServices, TextMessageVM message) =>
 {
     return await msgServices.SendMessage(message);
 });
 
-app.MapGet("/messagesWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) => 
+app.MapGet("/messagesWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) =>
 {
     return hub_challenge;
 });
