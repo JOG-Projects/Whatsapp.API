@@ -1,5 +1,9 @@
+using Whatsapp.Domain;
+using Whatsapp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IMessageServices, MessageServices>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -13,28 +17,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapPost("/sendMessage", async (IMessageServices msgServices, TextMessageVM message) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    return await msgServices.SendMessage(message);
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/messagesWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) => 
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    return hub_challenge;
+});
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
