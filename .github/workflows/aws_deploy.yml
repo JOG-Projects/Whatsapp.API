@@ -32,14 +32,14 @@ on:
       - "main"
 
 env:
-  AWS_REGION: sa-east-1                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: whatsapp_api           # set this to your Amazon ECR repository name
-  ECS_SERVICE: whatsapp_service                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: whatsapp_cluster                 # set this to your Amazon ECS cluster name
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: whatsapp_api           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
-  ECS_TASK_DEFINITION_FILE: task-definition.json
+  AWS_REGION: sa-east-1                             # set this to your AWS region, e.g. us-west-1
+  ECR_REPOSITORY: whatsapp_api                      # set this to your Amazon ECR repository name
+  ECS_SERVICE: whatsapp_service                     # set this to your Amazon ECS service name
+  ECS_CLUSTER: whatsapp_cluster                     # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: whatsapp_api_task_definition # set this to your Amazon ECS task definition name | to get the json config file with "describe-task-definition"
+  CONTAINER_NAME: whatsapp_api                      # set this to the name of the container in the container definitions section of your task definition
+                                             
+  ECS_TASK_DEFINITION_FILE: task-definition.json    # placeholder name for the task definition json file
 permissions:
   contents: read
 
