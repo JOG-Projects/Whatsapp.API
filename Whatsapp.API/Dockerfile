@@ -7,8 +7,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Whatsapp.API/Whatsapp.API.csproj", "Whatsapp.API/"]
-RUN dotnet restore "Whatsapp.API/Whatsapp.API.csproj"
+RUN dotnet restore "Whatsapp.API.csproj"
 COPY . .
 WORKDIR "/src/Whatsapp.API"
 RUN dotnet build "Whatsapp.API.csproj" -c Release -o /app/build
