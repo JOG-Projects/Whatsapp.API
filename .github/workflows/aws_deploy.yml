@@ -36,7 +36,6 @@ env:
   ECR_REPOSITORY: whatsapp_api           # set this to your Amazon ECR repository name
   ECS_SERVICE: whatsapp_service                 # set this to your Amazon ECS service name
   ECS_CLUSTER: whatsapp_cluster                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: whatsapp_api_task_definition # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: whatsapp_api           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
