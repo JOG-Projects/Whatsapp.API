@@ -40,7 +40,7 @@ env:
                                                # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: whatsapp_api           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
-
+  ECS_TASK_DEFINITION_FILE: task-definition.json
 permissions:
   contents: read
 
@@ -64,6 +64,9 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+    - name: Download task def
+      run: |
+        aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > ${{ env.ECS_TASK_DEFINITION_FILE }}
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
