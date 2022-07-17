@@ -2,14 +2,8 @@
 
 namespace Whatsapp.Domain
 {
-    public class TextMessage
+    public class TextMessage : MessageBase
     {
-        [JsonProperty("messaging_product")]
-        public string MessagingProduct { get; } = "whatsapp";
-
-        [JsonProperty("to")]
-        public string To { get; set; }
-
         [JsonProperty("type")]
         public string Type { get; } = "text";
 
@@ -19,9 +13,8 @@ namespace Whatsapp.Domain
         [JsonProperty("preview_url")]
         public bool PreviewUrl { get; set; }
 
-        public TextMessage(string to, string text, bool preview = true)
-        {
-            To = to;
+        public TextMessage(string to, string text, bool preview = true): base(to)
+        {            
             Text = new(text);
         }
     }
