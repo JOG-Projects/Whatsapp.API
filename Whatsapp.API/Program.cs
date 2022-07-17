@@ -17,7 +17,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/test", () => "testado");
+app.MapGet("/health", () => "estou vivo");
 
 app.MapPost("/sendMessage", async (IMessageServices msgServices, TextMessageVM message) =>
 {
