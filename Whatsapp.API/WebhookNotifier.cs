@@ -17,7 +17,7 @@ internal class WebhookNotifier : IWebhookNotifier
     {
         _list.Add(endpoint);
     }
-    public async Task NotifyEndpoints(TextMessageReceived textMessage)
+    public async Task NotifyEndpoints(object textMessage)
     {
         await Task.Run(() => _list.ForEach(async (endpoint) =>
         {

@@ -26,14 +26,17 @@ app.MapGet("subscribe", (IWebhookNotifier notifier, string endpoint) =>
     notifier.Add(endpoint);
 });
 
-app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, TextMessageReceived textMessage) =>
+app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, object textMessage) =>
 {
     await notifier.NotifyEndpoints(textMessage);
 });
 
-app.MapGet("/middlewareWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) =>
+app.MapGet("/middlewareWebhook", (IConfiguration configuration, string hub_mode, int hub_challenge, string hub_verify_token) =>
 {
-    return hub_challenge;
+    if(hub_verify_token == configuration["VerifyToken"])
+        return hub_challenge;
+
+    return 0;
 });
 
 
