@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using Whatsapp.Services;
 using Whatsapp.Domain;
-using System.Net.Http.Json;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +8,6 @@ namespace Whatsapp.Services
 {
     public class MessageServices : IMessageServices
     {
-        private string Number { get; }
         private readonly HttpClient _httpClient;
         private string BaseUrl { get; }
         private string EndpointPostMessages { get; }
@@ -18,13 +15,12 @@ namespace Whatsapp.Services
 
         public MessageServices(IConfiguration configuration, HttpClient httpClient)
         {
-            Number = configuration["PhoneNumberId"];
-            BaseUrl = $"https://graph.facebook.com/v13.0/{Number}";
+            BaseUrl = $"https://graph.facebook.com/v13.0/{configuration["PhoneNumberId"]}";
             EndpointPostMessages = $"{BaseUrl}/messages";
             EndpointPostMediaUpload = $"{BaseUrl}/media";
 
             _httpClient = httpClient;
-            ConfigureHttpClient();
+            ConfigureHttpClient(configuration["Bearer"]);
         }
 
         public async Task<string> SendMessage(TextMessageVM message)
@@ -75,9 +71,9 @@ namespace Whatsapp.Services
             return stringResponse;
         }
 
-        private void ConfigureHttpClient()
+        private void ConfigureHttpClient(string bearer)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new("Bearer", "EAAvZA54XXes0BAP1onahUMp3D4w5YmpeXEhpWWSG3S6kYC0aQLN4G8LGYaoOkBjddTftnk473yxmGVopqs3je7fr9Kn4ImqeOWlBfZBOaa5gEUCoxv2vRFZC6es98TiZCIQ9aFy4aTZA8PpygKmZBOliuFZB4ltFn0lZCqVUVKgTVGwGpqGIcEiQeVdgzg1X2rDwMwR8qcFP9wZDZD");
+            _httpClient.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
