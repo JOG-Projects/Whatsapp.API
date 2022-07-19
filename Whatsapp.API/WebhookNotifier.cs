@@ -1,19 +1,27 @@
-﻿internal class WebhookNotifier : IWebhookNotifier
-{
-    private List<string> _list;
+﻿using Whatsapp.Services;
 
-    public WebhookNotifier()
+internal class WebhookNotifier : IWebhookNotifier
+{
+    private readonly List<string> _list;
+    private readonly ITextMessageReceivedService _messageReceivedService;
+    private readonly HttpClient _httpClient;
+
+    public WebhookNotifier(ITextMessageReceivedService messageReceivedService, HttpClient httpClient)
     {
         _list = new();
+        _messageReceivedService = messageReceivedService;
+        _httpClient = httpClient;
     }
 
     public void Add(string endpoint)
     {
         _list.Add(endpoint);
     }
-
-    public List<string> GetAll()
+    public async Task NotifyEndpoints(TextMessageReceived textMessage)
     {
-        return _list;
+        await Task.Run(() => _list.ForEach(async (endpoint) =>
+        {
+            await _httpClient.PostAsync(endpoint, JsonContent.Create(textMessage));
+        }));
     }
 }

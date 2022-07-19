@@ -1,6 +1,8 @@
-﻿internal interface IWebhookNotifier
+﻿using Whatsapp.Services;
+
+internal interface IWebhookNotifier
 {
     void Add(string endpoint);
 
-    List<string> GetAll();
+    Task NotifyEndpoints(TextMessageReceived textMessage);
 }

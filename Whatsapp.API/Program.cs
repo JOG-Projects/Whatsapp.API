@@ -2,10 +2,11 @@ using Whatsapp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IMessageServices, MessageServices>();
-builder.Services.AddScoped<IWebhookNotifier, WebhookNotifier>();
+builder.Services.AddSingleton<HttpClient>();
+builder.Services.AddSingleton<IMessageServices, MessageServices>();
+builder.Services.AddSingleton<IWebhookNotifier, WebhookNotifier>();
+builder.Services.AddSingleton<ITextMessageReceivedService, TextMessageReceivedServices>();
 
-builder.Services.AddScoped<ITextMessageReceivedServices, TextMessageReceivedServices>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,19 +26,26 @@ app.MapGet("subscribe", (IWebhookNotifier notifier, string endpoint) =>
     notifier.Add(endpoint);
 });
 
-app.MapPost("/sendMessage", async (IMessageServices msgServices, TextMessageVM message) =>
+app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, TextMessageReceived textMessage) =>
 {
-    return await msgServices.SendMessage(message);
+    await notifier.NotifyEndpoints(textMessage);
 });
 
-app.MapGet("/messagesWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) =>
+app.MapGet("/middlewareWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) =>
 {
     return hub_challenge;
 });
 
-app.MapPost("/receiveMessage", async (ITextMessageReceivedServices textMessageServices, TextMessageReceived textMessage) =>
+
+app.MapPost("/message", async (IMessageServices msgServices, TextMessageVM message) =>
 {
-    await textMessageServices.GetMessage(textMessage);
+    return await msgServices.SendMessage(message);
+});
+
+
+app.MapPost("/handleMessage", async (ITextMessageReceivedService textMessageServices, TextMessageReceived textMessage) =>
+{
+    await textMessageServices.HandleMessage(textMessage);
 });
 
 app.Run();

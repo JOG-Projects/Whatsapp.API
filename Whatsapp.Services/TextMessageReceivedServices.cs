@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whatsapp.Domain;
+﻿using Whatsapp.Domain;
 
 namespace Whatsapp.Services
 {
-    public class TextMessageReceivedServices : ITextMessageReceivedServices
+    public class TextMessageReceivedServices : ITextMessageReceivedService
     {
         private readonly IMessageServices MessageServices;
 
@@ -16,7 +11,7 @@ namespace Whatsapp.Services
             MessageServices = messageServices;
         }
 
-        public async Task GetMessage(TextMessageReceived receivedMessage)
+        public async Task HandleMessage(TextMessageReceived receivedMessage)
         {
             foreach (Entry entry in receivedMessage.entry)
             {
@@ -34,9 +29,9 @@ namespace Whatsapp.Services
                 return;
             }
 
-            foreach (Message message in change.value.messages)
+            foreach ((var message, var contact) in change.value.messages.Zip(change.value.contacts))
             {
-                var from = change.value.contacts[0].wa_id;
+                var from = contact.wa_id;
                 var textMessage = new TextMessage(from, message.text.body + " - recebido");
                 await MessageServices.SendMessage(textMessage);
             }
