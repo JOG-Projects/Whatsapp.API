@@ -33,7 +33,7 @@ app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, object textM
 
 app.MapGet("/middlewareWebhook", (IConfiguration configuration, string hub_mode, int hub_challenge, string hub_verify_token) =>
 {
-    if(hub_verify_token == configuration["VerifyToken"])
+    if(hub_verify_token == configuration["VerifyToken"] && hub_mode == "subscribe")
         return hub_challenge;
 
     return 0;
