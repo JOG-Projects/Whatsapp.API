@@ -51,7 +51,7 @@ namespace Whatsapp.Services
         //    return stringResponse;
         //}
 
-        public async Task<string> UploadMedia(ImageUploader image)
+        public async Task<string> UploadMedia(ImageUploadRequestVM image)
         {
             MultipartFormDataContent content = new();
 

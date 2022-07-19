@@ -1,15 +1,11 @@
-﻿using Whatsapp.Services;
-
-internal class WebhookNotifier : IWebhookNotifier
+﻿internal class WebhookNotifier : IWebhookNotifier
 {
     private readonly List<string> _list;
-    private readonly ITextMessageReceivedService _messageReceivedService;
     private readonly HttpClient _httpClient;
 
-    public WebhookNotifier(ITextMessageReceivedService messageReceivedService, HttpClient httpClient)
+    public WebhookNotifier(HttpClient httpClient)
     {
         _list = new();
-        _messageReceivedService = messageReceivedService;
         _httpClient = httpClient;
     }
 

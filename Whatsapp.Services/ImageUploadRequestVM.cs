@@ -5,5 +5,5 @@
         jpeg, png
     }
 
-    public record ImageUploader(string Base64);
+    public record ImageUploadRequestVM(string Base64);
 }
