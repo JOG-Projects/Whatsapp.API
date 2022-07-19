@@ -31,9 +31,10 @@ app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, TextMessageR
     await notifier.NotifyEndpoints(textMessage);
 });
 
-app.MapGet("/middlewareWebhook", (string hub_mode, int hub_challenge, string hub_verify_token) =>
+app.MapGet("/middlewareWebhook", (IConfiguration configuration, string hub_mode, int hub_challenge, string hub_verify_token) =>
 {
-    return hub_challenge;
+    if(hub_verify_token == configuration["VerifyToken"])
+        return hub_challenge;
 });
 
 
