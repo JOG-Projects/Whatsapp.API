@@ -3,6 +3,8 @@ using Whatsapp.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMessageServices, MessageServices>();
+builder.Services.AddScoped<IWebhookNotifier, WebhookNotifier>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -15,6 +17,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/health", () => "estou vivo");
+
+
+app.MapGet("subscribe", (IWebhookNotifier notifier, string endpoint) =>
+{
+    notifier.Add(endpoint);
+});
 
 app.MapPost("/sendMessage", async (IMessageServices msgServices, TextMessageVM message) =>
 {
