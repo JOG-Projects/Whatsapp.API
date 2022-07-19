@@ -24,7 +24,8 @@ namespace Whatsapp.Services
                 {
                     foreach (Message message in change.value.messages)
                     {
-                        var textMessage = new TextMessage(change.value.contacts[0].wa_id, message.text.body + " - recebido");
+                        var from = change.value.contacts[0].wa_id;
+                        var textMessage = new TextMessage(from, message.text.body + " - recebido");
                         await MessageServices.SendMessage(textMessage);
                     }
                 }
