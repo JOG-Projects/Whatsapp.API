@@ -35,4 +35,9 @@ app.MapPost("/receiveMessage", async (ITextMessageReceivedServices textMessageSe
     await textMessageServices.GetMessage(textMessage);
 });
 
+app.MapPost("/uploadMedia", async (IMessageServices messageServices, ImageUploader image) =>
+{
+    await messageServices.UploadMedia(image);
+});
+
 app.Run();
