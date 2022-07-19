@@ -26,7 +26,7 @@ app.MapGet("subscribe", (IWebhookNotifier notifier, string endpoint) =>
     notifier.Add(endpoint);
 });
 
-app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, TextMessageReceived textMessage) =>
+app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, object textMessage) =>
 {
     await notifier.NotifyEndpoints(textMessage);
 });

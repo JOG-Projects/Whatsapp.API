@@ -4,5 +4,5 @@ internal interface IWebhookNotifier
 {
     void Add(string endpoint);
 
-    Task NotifyEndpoints(TextMessageReceived textMessage);
+    Task NotifyEndpoints(object textMessage);
 }
