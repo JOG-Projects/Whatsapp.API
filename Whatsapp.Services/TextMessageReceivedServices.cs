@@ -22,13 +22,23 @@ namespace Whatsapp.Services
             {
                 foreach (Change change in entry.changes)
                 {
-                    foreach (Message message in change.value.messages)
-                    {
-                        var from = change.value.contacts[0].wa_id;
-                        var textMessage = new TextMessage(from, message.text.body + " - recebido");
-                        await MessageServices.SendMessage(textMessage);
-                    }
+                    await AnswerMessage(change);
                 }
+            }
+        }
+
+        private async Task AnswerMessage(Change change)
+        {
+            if (change.value.messages == null || change.value.contacts == null)
+            {
+                return;
+            }
+
+            foreach (Message message in change.value.messages)
+            {
+                var from = change.value.contacts[0].wa_id;
+                var textMessage = new TextMessage(from, message.text.body + " - recebido");
+                await MessageServices.SendMessage(textMessage);
             }
         }
     }

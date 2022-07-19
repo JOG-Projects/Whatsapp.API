@@ -48,7 +48,7 @@ namespace Whatsapp.Services
 
         private void Configure()
         {
-            Client.DefaultRequestHeaders.Authorization = new("Bearer", "EAAvZA54XXes0BABSFqeOeMxM9CmWcT9n1i3dMDNqVZBGIc6W56ZCxc2vCYk7fxGPZBQPVi4ZAwTgZB041QE14NlfvtZAgnBwIZC7G5xpUXzGfiZCoMZCXX2qnOTVwYar8N8vWboIGR82TIuFlLfguBMIn8oeGBD5rgaSmowdYReMx7vSGYzw0X2EdZAzJwR1HZCZBfi61qzmmzRSB8QZDZD");
+            Client.DefaultRequestHeaders.Authorization = new("Bearer", "EAAvZA54XXes0BAP1onahUMp3D4w5YmpeXEhpWWSG3S6kYC0aQLN4G8LGYaoOkBjddTftnk473yxmGVopqs3je7fr9Kn4ImqeOWlBfZBOaa5gEUCoxv2vRFZC6es98TiZCIQ9aFy4aTZA8PpygKmZBOliuFZB4ltFn0lZCqVUVKgTVGwGpqGIcEiQeVdgzg1X2rDwMwR8qcFP9wZDZD");
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
