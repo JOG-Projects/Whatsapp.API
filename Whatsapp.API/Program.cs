@@ -35,6 +35,8 @@ app.MapGet("/middlewareWebhook", (IConfiguration configuration, string hub_mode,
 {
     if(hub_verify_token == configuration["VerifyToken"])
         return hub_challenge;
+
+    return 0;
 });
 
 
