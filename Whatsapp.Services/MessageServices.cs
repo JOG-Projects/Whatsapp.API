@@ -11,15 +11,14 @@ namespace Whatsapp.Services
     public class MessageServices : IMessageServices
     {
         private string Number { get; }
-        private static HttpClient Client = new();
         private readonly HttpClient _httpClient;
         private string BaseUrl { get; }
         private string EndpointPostMessages { get; }
         private string EndpointPostMediaUpload { get; }
 
-        public MessageServices(IConfiguration configuration, middlewareWebhook)
+        public MessageServices(IConfiguration configuration, HttpClient httpClient)
         {
-            Number = configuration["phoneNumber"];
+            Number = configuration["PhoneNumberId"];
             BaseUrl = $"https://graph.facebook.com/v13.0/{Number}";
             EndpointPostMessages = $"{BaseUrl}/messages";
             EndpointPostMediaUpload = $"{BaseUrl}/media";
@@ -38,7 +37,7 @@ namespace Whatsapp.Services
         {
             var messageJson = JsonConvert.SerializeObject(txtMessage);
 
-            var response = await Client.PostAsync(EndpointPostMessages, new StringContent(messageJson, Encoding.UTF8, "application/json"));
+            var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(messageJson, Encoding.UTF8, "application/json"));
 
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -67,7 +66,7 @@ namespace Whatsapp.Services
             content.Add(new StringContent($"file=@{path};type=image/jpeg;"));
             content.Add(new StringContent("messaging_product=whatsapp;"));
 
-            var response = await Client.PostAsync(EndpointPostMediaUpload, content);
+            var response = await _httpClient.PostAsync(EndpointPostMediaUpload, content);
 
             var stringResponse = await response.Content.ReadAsStringAsync();
 
