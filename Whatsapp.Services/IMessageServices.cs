@@ -11,5 +11,7 @@ namespace Whatsapp.Services
     public interface IMessageServices
     {
         public Task<string> SendMessage(TextMessageVM message);
+
+        public Task<string> SendMessage(TextMessage txtMessage);
     }
 }

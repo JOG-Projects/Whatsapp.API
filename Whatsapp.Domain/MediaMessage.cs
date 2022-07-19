@@ -11,11 +11,10 @@ namespace Whatsapp.Domain
     public class MediaMessage: MessageBase
     {
         public string recipient_type { get; set; }
-        public string to { get; set; }
-        public string type { get; set; }
+        public string type { get; } = "image";
         public Image image { get; set; }
 
-        public MediaMessage(string to) : base(to)
+        public MediaMessage(string to, string image) : base(to)
         {
         }
     }
