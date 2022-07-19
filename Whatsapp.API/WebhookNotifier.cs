@@ -17,7 +17,11 @@
     {
         await Task.Run(() => _list.ForEach(async (endpoint) =>
         {
-            await _httpClient.PostAsync(endpoint, JsonContent.Create(textMessage));
+            try
+            {
+                await _httpClient.PostAsync(endpoint, JsonContent.Create(textMessage));
+            }
+            catch { }
         }));
     }
 }
