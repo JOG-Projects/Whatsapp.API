@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>8ec6d13b-7eb1-4bbf-9dcd-40ae375d360a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -14,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whatsapp.Domain\Whatsapp.Domain.csproj" />
     <ProjectReference Include="..\Whatsapp.Services\Whatsapp.Services.csproj" />
   </ItemGroup>
 
