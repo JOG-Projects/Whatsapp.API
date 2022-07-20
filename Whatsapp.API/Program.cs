@@ -1,4 +1,5 @@
 using Whatsapp.Domain;
+using Microsoft.AspNetCore.Mvc;
 using Whatsapp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,7 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/health", () => "estou vivo");
 
 
-app.MapGet("subscribe", (IWebhookNotifier notifier, string endpoint) =>
+app.MapGet("/subscribe", (IWebhookNotifier notifier, string endpoint) =>
 {
     notifier.Add(endpoint);
 });
@@ -32,12 +33,18 @@ app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, object textM
     await notifier.NotifyEndpoints(textMessage);
 });
 
-app.MapGet("/middlewareWebhook", (IConfiguration configuration, string hub_mode, int hub_challenge, string hub_verify_token) =>
+app.MapGet("/middlewareWebhook", 
+(IConfiguration configuration, 
+[FromQuery(Name = "hub.mode")] string hubMode,
+[FromQuery(Name = "hub.challenge")] int hubChallenge,
+[FromQuery(Name = "hub.verify_token")] string hubVerifyToken) =>
 {
-    if(hub_verify_token == configuration["VerifyToken"])
-        return hub_challenge;
+    if (hubVerifyToken == configuration["VerifyToken"] && hubMode == "subscribe")
+    {
+        return Results.Ok(hubChallenge);
+    }
 
-    return 0;
+    return Results.Forbid();
 });
 
 
@@ -52,7 +59,7 @@ app.MapPost("/handleMessage", async (ITextMessageReceivedService textMessageServ
     await textMessageServices.HandleMessage(textMessage);
 });
 
-app.MapPost("/uploadMedia", async (IMessageServices messageServices, ImageUploader image) =>
+app.MapPost("/uploadMedia", async (IMessageServices messageServices, ImageUploadRequestVM image) =>
 {
     await messageServices.UploadMedia(image);
 });
