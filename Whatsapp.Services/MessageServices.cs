@@ -40,11 +40,11 @@ namespace Whatsapp.Services
             return responseString;
         }
 
-        public async Task<string> SendMediaByUrl(Media media)
+        public async Task<string> SendMediaByUrl(MediaVM mediaVM)
         {
-            MultipartFormDataContent content = new();
+            var media = new Media(mediaVM.To, mediaVM.Link);
 
-            var response = await _httpClient.PostAsync(EndpointPostMediaUpload, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
+            var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
 
             var stringResponse = await response.Content.ReadAsStringAsync();
 
@@ -58,7 +58,7 @@ namespace Whatsapp.Services
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public Task<string> UploadMedia(ImageUploader image)
+        public Task<string> UploadMedia(ImageUploadRequestVM image)
         {
             throw new NotImplementedException();
         }

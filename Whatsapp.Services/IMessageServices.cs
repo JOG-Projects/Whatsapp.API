@@ -14,7 +14,7 @@ namespace Whatsapp.Services
 
         public Task<string> SendMessage(TextMessage txtMessage);
 
-        public Task<string> SendMediaByUrl(Media media);
+        public Task<string> SendMediaByUrl(MediaVM media);
 
         public Task<string> UploadMedia(ImageUploadRequestVM image);
     }

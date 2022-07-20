@@ -64,7 +64,7 @@ app.MapPost("/uploadMedia", async (IMessageServices messageServices, ImageUpload
     await messageServices.UploadMedia(image);
 });
 
-app.MapPost("/sendMediaByUrl", async (IMessageServices messageServices, Media image) =>
+app.MapPost("/sendMediaByUrl", async (IMessageServices messageServices, MediaVM image) =>
 {
     await messageServices.SendMediaByUrl(image);
 });
