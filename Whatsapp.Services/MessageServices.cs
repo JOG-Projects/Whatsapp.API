@@ -40,33 +40,13 @@ namespace Whatsapp.Services
             return responseString;
         }
 
-        //public async Task<string> UploadImage(ImageUploader image)
-        //{
-        //    var imageBytes = Encoding.UTF8.GetBytes(image.Base64);
-        //
-        //    var response = await Client.PostAsync(UriImage, new ByteArrayContent(imageBytes));
-        //
-        //    var stringResponse = await response.Content.ReadAsStringAsync();
-        //
-        //    return stringResponse;
-        //}
-
-        public async Task<string> UploadMedia(ImageUploader image)
+        public async Task<string> SendMediaByUrl(Media media)
         {
             MultipartFormDataContent content = new();
 
-            var imageBytes = Encoding.UTF8.GetBytes(image.Base64);
-            var path = new Guid().ToString() + ".jpg";
-            File.WriteAllBytes(path, imageBytes);
-
-            content.Add(new StringContent($"file=@{path};type=image/jpeg;"));
-            content.Add(new StringContent("messaging_product=whatsapp;"));
-
-            var response = await _httpClient.PostAsync(EndpointPostMediaUpload, content);
+            var response = await _httpClient.PostAsync(EndpointPostMediaUpload, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
 
             var stringResponse = await response.Content.ReadAsStringAsync();
-
-            File.Delete(path);
 
             return stringResponse;
         }
@@ -76,6 +56,11 @@ namespace Whatsapp.Services
             _httpClient.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public Task<string> UploadMedia(ImageUploader image)
+        {
+            throw new NotImplementedException();
         }
     }
 }

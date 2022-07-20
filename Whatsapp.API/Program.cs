@@ -1,3 +1,4 @@
+using Whatsapp.Domain;
 using Whatsapp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,11 @@ app.MapPost("/handleMessage", async (ITextMessageReceivedService textMessageServ
 app.MapPost("/uploadMedia", async (IMessageServices messageServices, ImageUploader image) =>
 {
     await messageServices.UploadMedia(image);
+});
+
+app.MapPost("/sendMediaByUrl", async (IMessageServices messageServices, Media image) =>
+{
+    await messageServices.SendMediaByUrl(image);
 });
 
 app.Run();

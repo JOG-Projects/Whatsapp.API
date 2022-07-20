@@ -12,7 +12,7 @@ namespace Whatsapp.Domain
     {
         public string recipient_type { get; set; }
         public string type { get; } = "image";
-        public Image image { get; set; }
+        public Media image { get; set; }
 
         public MediaMessage(string to, string image) : base(to)
         {
