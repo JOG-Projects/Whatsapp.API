@@ -1,6 +1,7 @@
 using Whatsapp.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Whatsapp.Services;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,11 +9,18 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<IMessageServices, MessageServices>();
 builder.Services.AddSingleton<IWebhookNotifier, WebhookNotifier>();
 builder.Services.AddSingleton<ITextMessageReceivedService, TextMessageReceivedServices>();
+builder.Services.AddSingleton<IMediaHandler, MediaHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDirectoryBrowser();
 
 var app = builder.Build();
+
+Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "MyStaticFiles"));
+
+var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "MyStaticFiles"));
+var requestPath = "/StaticFiles";
 
 if (app.Environment.IsDevelopment())
 {
@@ -20,7 +28,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGet("/returnFile", (string fileName) =>
+{
+    return Results.File(Path.Combine(builder.Environment.ContentRootPath, "StaticFiles", fileName), "image/jpg", $"{fileName}");
+});
+
 app.MapGet("/health", () => "estou vivo");
+
+app.MapPost("/saveMedia", (IMessageServices handler, [FromBody]string mediaBase64) =>
+{
+    return handler.SaveMediaJpg(mediaBase64);
+});
 
 
 app.MapGet("/subscribe", (IWebhookNotifier notifier, string endpoint) =>
@@ -57,11 +75,6 @@ app.MapPost("/message", async (IMessageServices msgServices, TextMessageVM messa
 app.MapPost("/handleMessage", async (ITextMessageReceivedService textMessageServices, TextMessageReceived textMessage) =>
 {
     await textMessageServices.HandleMessage(textMessage);
-});
-
-app.MapPost("/uploadMedia", async (IMessageServices messageServices, ImageUploadRequestVM image) =>
-{
-    await messageServices.UploadMedia(image);
 });
 
 app.MapPost("/sendMediaByUrl", async (IMessageServices messageServices, MediaVM image) =>

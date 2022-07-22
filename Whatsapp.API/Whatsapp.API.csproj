@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Whatsapp.Services\Whatsapp.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StaticFiles\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,8 @@ using System.Net.Http.Headers;
 using Whatsapp.Domain;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Whatsapp.Domain.Media;
+using Microsoft.Extensions.Hosting;
 
 namespace Whatsapp.Services
 {
@@ -13,7 +15,9 @@ namespace Whatsapp.Services
         private string EndpointPostMessages { get; }
         private string EndpointPostMediaUpload { get; }
 
-        public MessageServices(IConfiguration configuration, HttpClient httpClient)
+        private string FilesDirectory;
+
+        public MessageServices(IConfiguration configuration, HttpClient httpClient, IHostEnvironment environment)
         {
             BaseUrl = $"https://graph.facebook.com/v13.0/{configuration["PhoneNumberId"]}";
             EndpointPostMessages = $"{BaseUrl}/messages";
@@ -21,6 +25,10 @@ namespace Whatsapp.Services
 
             _httpClient = httpClient;
             ConfigureHttpClient(configuration["Bearer"]);
+
+            FilesDirectory = Path.Combine(environment.ContentRootPath, "StaticFiles");
+
+            Directory.CreateDirectory(FilesDirectory);
         }
 
         public async Task<string> SendMessage(TextMessageVM message)
@@ -40,9 +48,20 @@ namespace Whatsapp.Services
             return responseString;
         }
 
+        public string SaveMediaJpg(string mediaBase64)
+        {
+            var media = Convert.FromBase64String(mediaBase64);
+
+            var fileName = Guid.NewGuid().ToString() + ".jpg";
+
+            File.WriteAllBytes(Path.Combine(FilesDirectory, fileName), media);
+
+            return fileName;
+        }
+
         public async Task<string> SendMediaByUrl(MediaVM mediaVM)
         {
-            var media = new Media(mediaVM.To, mediaVM.Link);
+            var media = new Image(mediaVM.To, mediaVM.Link);
 
             var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
 

@@ -17,5 +17,7 @@ namespace Whatsapp.Services
         public Task<string> SendMediaByUrl(MediaVM media);
 
         public Task<string> UploadMedia(ImageUploadRequestVM image);
+
+        public string SaveMediaJpg(string mediaBase64);
     }
 }
