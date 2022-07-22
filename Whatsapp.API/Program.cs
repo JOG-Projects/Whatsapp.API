@@ -22,9 +22,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/returnFile/{fileName}", [InlineContentAttribute] ([FromRoute] string fileName) =>
+app.MapGet("/returnFile/{fileName}", [InlineContent] ([FromRoute] string fileName) =>
 {
-    return Results.File(Path.Combine(builder.Environment.ContentRootPath, "StaticFiles", fileName), "image/jpg", $"{fileName}");
+    var path = Path.Combine(builder.Environment.ContentRootPath, "StaticFiles", fileName);
+    return Results.File(path, "image/jpg");
 });
 
 app.MapGet("/health", () => "estou vivo");
