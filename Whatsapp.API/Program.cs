@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Whatsapp.API;
 using Whatsapp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/returnFile/{fileName}", ([FromRoute] string fileName) =>
+app.MapGet("/returnFile/{fileName}", [InlineContentAttribute] ([FromRoute] string fileName) =>
 {
     return Results.File(Path.Combine(builder.Environment.ContentRootPath, "StaticFiles", fileName), "image/jpg", $"{fileName}");
 });
