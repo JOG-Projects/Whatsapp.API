@@ -8,17 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="StaticFiles\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="StaticFiles\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="StaticFiles\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="StaticFiles\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whatsapp.Services\Whatsapp.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="StaticFiles\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

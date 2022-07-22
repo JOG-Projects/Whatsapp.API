@@ -1,7 +1,5 @@
-using Whatsapp.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Whatsapp.Services;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,29 +15,23 @@ builder.Services.AddDirectoryBrowser();
 
 var app = builder.Build();
 
-Directory.CreateDirectory(Path.Combine(builder.Environment.ContentRootPath, "MyStaticFiles"));
-
-var fileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "MyStaticFiles"));
-var requestPath = "/StaticFiles";
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.MapGet("/returnFile", (string fileName) =>
+app.MapGet("/returnFile/{fileName}", ([FromRoute] string fileName) =>
 {
     return Results.File(Path.Combine(builder.Environment.ContentRootPath, "StaticFiles", fileName), "image/jpg", $"{fileName}");
 });
 
 app.MapGet("/health", () => "estou vivo");
 
-app.MapPost("/saveMedia", (IMessageServices handler, [FromBody]string mediaBase64) =>
+app.MapPost("/saveMedia", (IMessageServices handler, [FromBody] string mediaBase64) =>
 {
     return handler.SaveMediaJpg(mediaBase64);
 });
-
 
 app.MapGet("/subscribe", (IWebhookNotifier notifier, string endpoint) =>
 {
@@ -51,8 +43,8 @@ app.MapPost("/middlewareWebhook", async (IWebhookNotifier notifier, object textM
     await notifier.NotifyEndpoints(textMessage);
 });
 
-app.MapGet("/middlewareWebhook", 
-(IConfiguration configuration, 
+app.MapGet("/middlewareWebhook",
+(IConfiguration configuration,
 [FromQuery(Name = "hub.mode")] string hubMode,
 [FromQuery(Name = "hub.challenge")] int hubChallenge,
 [FromQuery(Name = "hub.verify_token")] string hubVerifyToken) =>
@@ -65,12 +57,10 @@ app.MapGet("/middlewareWebhook",
     return Results.Forbid();
 });
 
-
 app.MapPost("/message", async (IMessageServices msgServices, TextMessageVM message) =>
 {
     return await msgServices.SendMessage(message);
 });
-
 
 app.MapPost("/handleMessage", async (ITextMessageReceivedService textMessageServices, TextMessageReceived textMessage) =>
 {

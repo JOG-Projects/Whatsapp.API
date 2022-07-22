@@ -27,7 +27,6 @@ namespace Whatsapp.Services
             ConfigureHttpClient(configuration["Bearer"]);
 
             FilesDirectory = Path.Combine(environment.ContentRootPath, "StaticFiles");
-
             Directory.CreateDirectory(FilesDirectory);
         }
 
