@@ -69,7 +69,7 @@ app.MapPost("/handleMessage", async (ITextMessageReceivedService textMessageServ
 
 app.MapPost("/sendMediaByUrl", async (IMessageServices messageServices, MediaVM image) =>
 {
-    await messageServices.SendMediaByUrl(image);
+    return await messageServices.SendMediaByUrl(image);
 });
 
 app.Run();
