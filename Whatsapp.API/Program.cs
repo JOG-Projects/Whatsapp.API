@@ -22,7 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/returnFile/{fileName}", [InlineContent] ([FromRoute] string fileName) =>
+app.MapGet("/returnFile/{fileName}", ([FromRoute] string fileName) =>
 {
     var path = Path.Combine(builder.Environment.ContentRootPath, "StaticFiles", fileName);
     return Results.File(path, "image/jpg");
