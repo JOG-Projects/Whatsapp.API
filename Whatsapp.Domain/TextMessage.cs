@@ -13,9 +13,20 @@ namespace Whatsapp.Domain
         [JsonProperty("preview_url")]
         public bool PreviewUrl { get; set; }
 
-        public TextMessage(string to, string text, bool preview = true): base(to)
-        {            
+        public TextMessage(string to, string text, bool preview = true) : base(to)
+        {
             Text = new(text);
+        }
+    }
+
+    public class Text
+    {
+        [JsonProperty("body")]
+        public string Body { get; set; }
+
+        public Text(string body)
+        {
+            Body = body;
         }
     }
 }

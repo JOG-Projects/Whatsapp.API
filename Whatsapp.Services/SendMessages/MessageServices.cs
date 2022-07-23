@@ -1,12 +1,15 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http.Headers;
-using Whatsapp.Domain;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using Whatsapp.Domain.Media;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
+using Whatsapp.Domain;
+using Whatsapp.Domain.MediaMessages;
+using Whatsapp.Services.Contracts;
+using Whatsapp.Services.MediaUpload;
+using Whatsapp.Services.ViewModels;
 
-namespace Whatsapp.Services
+namespace Whatsapp.Services.SendMessages
 {
     public class MessageServices : IMessageServices
     {
@@ -15,7 +18,6 @@ namespace Whatsapp.Services
         private string EndpointPostMessages { get; }
         private string EndpointPostMediaUpload { get; }
 
-        private string FilesDirectory;
 
         public MessageServices(IConfiguration configuration, HttpClient httpClient, IHostEnvironment environment)
         {
@@ -25,9 +27,6 @@ namespace Whatsapp.Services
 
             _httpClient = httpClient;
             ConfigureHttpClient(configuration["Bearer"]);
-
-            FilesDirectory = Path.Combine(environment.ContentRootPath, "StaticFiles");
-            Directory.CreateDirectory(FilesDirectory);
         }
 
         public async Task<string> SendMessage(TextMessageVM message)
@@ -47,20 +46,9 @@ namespace Whatsapp.Services
             return responseString;
         }
 
-        public string SaveMediaJpg(string mediaBase64)
+        public async Task<string> SendMediaByUrl(MediaMessageVM mediaVM)
         {
-            var media = Convert.FromBase64String(mediaBase64);
-
-            var fileName = Guid.NewGuid().ToString() + ".jpg";
-
-            File.WriteAllBytes(Path.Combine(FilesDirectory, fileName), media);
-
-            return fileName;
-        }
-
-        public async Task<string> SendMediaByUrl(MediaVM mediaVM)
-        {
-            var media = new Image(mediaVM.To, mediaVM.Link);
+            var media = new ImageMessage(mediaVM.To, mediaVM.Link);
 
             var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
 

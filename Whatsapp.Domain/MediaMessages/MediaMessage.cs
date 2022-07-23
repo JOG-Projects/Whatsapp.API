@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Whatsapp.Domain.Media
+namespace Whatsapp.Domain.MediaMessages
 {
-    public class Media
+    public class MediaMessage
     {
         [JsonProperty("messaging_product")]
         public string MessagingProduct { get; private set; } = "whatsapp";
@@ -14,11 +14,11 @@ namespace Whatsapp.Domain.Media
         public string To { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }  
+        public string Type { get; set; }
 
-        public Media(string to)
+        public MediaMessage(string to)
         {
             To = to;
         }
-    }    
+    }
 }
