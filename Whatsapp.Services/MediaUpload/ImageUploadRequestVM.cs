@@ -2,7 +2,7 @@
 {
     public enum ImageType
     {
-        JPG, PNG
+        jpg, png
     }
 
     public record ImageUploadRequestVM(string Base64, ImageType Type);

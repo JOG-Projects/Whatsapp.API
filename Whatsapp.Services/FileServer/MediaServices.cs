@@ -18,7 +18,7 @@ namespace Whatsapp.Services
         {
             var media = Convert.FromBase64String(imageRequest.Base64);
 
-            var fileName = $"{Guid.NewGuid()}{imageRequest.Type}";
+            var fileName = $"{Guid.NewGuid()}.{imageRequest.Type}";
 
             File.WriteAllBytes(Path.Combine(FilesDirectory, fileName), media);
 
