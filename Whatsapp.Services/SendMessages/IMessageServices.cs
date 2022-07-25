@@ -1,4 +1,5 @@
 ﻿using Whatsapp.Domain;
+using Whatsapp.Domain.MediaMessages;
 using Whatsapp.Services.MediaUpload;
 using Whatsapp.Services.ViewModels;
 
@@ -10,7 +11,7 @@ namespace Whatsapp.Services.Contracts
 
         public Task<string> SendMessage(TextMessage txtMessage);
 
-        public Task<string> SendMediaByUrl(MediaMessageVM media);
+        public Task<string> SendMediaByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage;
 
         public Task<string> UploadMedia(ImageUploadRequestVM image);
     }

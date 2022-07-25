@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -14,18 +15,21 @@ namespace Whatsapp.Services.SendMessages
     public class MessageServices : IMessageServices
     {
         private readonly HttpClient _httpClient;
+        private readonly IMapper _mapper;
+
         private string BaseUrl { get; }
         private string EndpointPostMessages { get; }
         private string EndpointPostMediaUpload { get; }
 
 
-        public MessageServices(IConfiguration configuration, HttpClient httpClient, IHostEnvironment environment)
+        public MessageServices(IConfiguration configuration, HttpClient httpClient, IHostEnvironment environment, IMapper mapper)
         {
             BaseUrl = $"https://graph.facebook.com/v13.0/{configuration["PhoneNumberId"]}";
             EndpointPostMessages = $"{BaseUrl}/messages";
             EndpointPostMediaUpload = $"{BaseUrl}/media";
 
             _httpClient = httpClient;
+            _mapper = mapper;
             ConfigureHttpClient(configuration["Bearer"]);
         }
 
@@ -46,9 +50,9 @@ namespace Whatsapp.Services.SendMessages
             return responseString;
         }
 
-        public async Task<string> SendMediaByUrl(MediaMessageVM mediaVM)
+        public async Task<string> SendMediaByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
         {
-            var media = new ImageMessage(mediaVM.To, mediaVM.Link);
+            var media = _mapper.Map<T>(mediaVM);
 
             var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
 

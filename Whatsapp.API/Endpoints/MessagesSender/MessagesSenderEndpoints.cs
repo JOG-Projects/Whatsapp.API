@@ -1,4 +1,5 @@
-﻿using Whatsapp.Services.Contracts;
+﻿using Whatsapp.Domain.MediaMessages;
+using Whatsapp.Services.Contracts;
 using Whatsapp.Services.ViewModels;
 
 namespace Whatsapp.API.Endpoints.MessagesSender
@@ -14,7 +15,7 @@ namespace Whatsapp.API.Endpoints.MessagesSender
 
         private static async Task<IResult> SendMedia(IMessageServices messageServices, MediaMessageVM image)
         {
-            var result = await messageServices.SendMediaByUrl(image);
+            var result = await messageServices.SendMediaByUrl<VideoMessage>(image);
             return Results.Ok(result);
         }
 
