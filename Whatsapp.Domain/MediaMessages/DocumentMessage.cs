@@ -2,14 +2,14 @@
 
 namespace Whatsapp.Domain.MediaMessages
 {
-    public class ImageMessage : MediaMessage
+    public class DocumentMessage : MediaMessage
     {
-        [JsonProperty("image")]
+        [JsonProperty("document")]
         public MediaUrl MediaType { get; set; }
 
-        public ImageMessage(string to, string mediaUrl) : base(to)
+        public DocumentMessage(string to, string mediaUrl) : base(to)
         {
-            Type = "image";
+            Type = "document";
             To = to;
             MediaType = new(mediaUrl);
         }
