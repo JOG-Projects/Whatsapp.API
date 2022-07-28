@@ -4,6 +4,6 @@
     {
         void Add(string endpoint);
 
-        public Task<List<(string, string)>> NotifyEndpoints(TextMessageReceived textMessage);
+        public Task<(string, string)> NotifyEndpoints(TextMessageReceived textMessage);
     }
 }
