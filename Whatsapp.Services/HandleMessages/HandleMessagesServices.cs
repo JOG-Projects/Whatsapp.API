@@ -32,9 +32,8 @@ namespace Whatsapp.Services.HandleMessagesServices
 
             foreach ((var message, var contact) in change.Value.Messages.Zip(change.Value.Contacts))
             {
-                var from = contact.Wa_id;
-                var textMessage = new TextMessage(from, $"{message.Text.Body} - recebido");
-                await MessageServices.SendMessage(textMessage);
+                var from = contact.Wa_id;                
+                await MessageServices.SendDefaultMessage(from);
             }
         }
     }

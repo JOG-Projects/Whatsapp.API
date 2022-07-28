@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Whatsapp.Domain;
+using Whatsapp.Services;
 using Whatsapp.Services.Webhook;
 
 namespace Whatsapp.API.Endpoints.WebhookRedirect
@@ -19,6 +21,7 @@ namespace Whatsapp.API.Endpoints.WebhookRedirect
             notifier.Add(endpoint);
             return Results.Ok(endpoint);
         }
+
         private static IResult VerifyWebhook(IConfiguration configuration,
             [FromQuery(Name = "hub.mode")] string hubMode,
             [FromQuery(Name = "hub.challenge")] int hubChallenge,
@@ -32,10 +35,10 @@ namespace Whatsapp.API.Endpoints.WebhookRedirect
             return Results.Forbid();
         }
 
-        private static async Task<IResult> NotifierHandler(IWebhookNotifierServices notifier, object textMessage)
+        private static async Task<IResult> NotifierHandler(IWebhookNotifierServices notifier, TextMessageReceived textMessage)
         {
-            await notifier.NotifyEndpoints(textMessage);
-            return Results.Ok(notifier);
+            var results = await notifier.NotifyEndpoints(textMessage);
+            return Results.Ok(results);
         }
     }
 }

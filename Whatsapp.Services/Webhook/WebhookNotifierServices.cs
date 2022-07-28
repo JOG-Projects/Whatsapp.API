@@ -18,7 +18,7 @@ namespace Whatsapp.Services.Webhook
             _clients.Add(endpoint);
         }
 
-        public async Task<List<(string, string)>> NotifyEndpoints(object textMessage)
+        public async Task<List<(string, string)>> NotifyEndpoints(TextMessageReceived textMessage)
         {
             var tasks = _clients.Select(c => GetReturn(c, textMessage));
 
@@ -27,7 +27,7 @@ namespace Whatsapp.Services.Webhook
             return results.ToList();
         }
 
-        private async Task<(string endpoint, string)> GetReturn(string endpoint, object textMessage)
+        private async Task<(string endpoint, string)> GetReturn(string endpoint, TextMessageReceived textMessage)
         {
             try
             {
