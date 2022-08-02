@@ -1,5 +1,4 @@
 ﻿using Whatsapp.Services;
-using Whatsapp.Services.AutoMapper;
 using Whatsapp.Services.Contracts;
 using Whatsapp.Services.FileServer;
 using Whatsapp.Services.HandleMessagesServices;

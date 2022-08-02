@@ -10,13 +10,13 @@ namespace Whatsapp.API.Endpoints.MessagesSender
         {
             app.MapPost("/textMessage", SendTextMessage);
 
-            app.MapPost("/ImageByUrl", SendImageByUrl);
+            app.MapPost("/imageByUrl", SendImageByUrl);
 
-            app.MapPost("/VideoByUrl", SendVideoByUrl);
+            app.MapPost("/videoByUrl", SendVideoByUrl);
 
-            app.MapPost("/AudioByUrl", SendAudioByUrl);
+            app.MapPost("/audioByUrl", SendAudioByUrl);
 
-            app.MapPost("/DocumentByUrl", SendDocumentByUrl);
+            app.MapPost("/documentByUrl", SendDocumentByUrl);
         }
 
         private static async Task<IResult> SendImageByUrl(IMessageServices messageServices, MediaMessageVM image)
