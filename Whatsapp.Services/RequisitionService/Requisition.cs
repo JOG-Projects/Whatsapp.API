@@ -1,4 +1,6 @@
-﻿namespace Whatsapp.Services.RequisitionService
+﻿using System.Text;
+
+namespace Whatsapp.Services.RequisitionService
 {
     public class Requisition
     {
@@ -19,7 +21,15 @@
 
         public override string ToString()
         {
-            return $"Nome da Requisição : {RequisitionName}\nTipo da Requisição : {RequisitionType}\nId : {RequisitionId}\nData de Criação : {CreatedDate}\n {(IsClosed ? "Fechada" : "Aberta")}";
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"Nome da Requisição : {RequisitionName}");
+            sb.AppendLine($"Tipo da Requisição : {RequisitionType}");
+            sb.AppendLine($"Id : {RequisitionId}");
+            sb.AppendLine($"Data de Criação : {CreatedDate}");
+            sb.AppendLine($"{(IsClosed ? "Fechada" : "Aberta")}");
+
+            return sb.ToString();
         }
     }
 }
