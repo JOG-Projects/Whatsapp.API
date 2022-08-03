@@ -11,9 +11,9 @@ namespace Whatsapp.API.Endpoints.MessagesHandler
 
         }
 
-        private async Task<IResult> HandleMessage(ITextMessageReceivedServices textMessageServices, TextMessageReceived textMessage)
+        private IResult HandleMessage(ITextMessageReceivedServices textMessageServices, TextMessageReceived textMessage)
         {
-            await textMessageServices.HandleMessage(textMessage);
+            textMessageServices.HandleMessage(textMessage);
             return Results.Ok();
         }
     }

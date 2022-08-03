@@ -2,6 +2,6 @@
 {
     public interface ITextMessageReceivedServices
     {
-        Task HandleMessage(TextMessageReceived receivedMessage);
+        void HandleMessage(TextMessageReceived receivedMessage);
     }
 }

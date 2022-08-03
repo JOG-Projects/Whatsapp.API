@@ -13,13 +13,13 @@ namespace Whatsapp.Services.HandleMessagesServices
             MessageServices = messageServices;
         }
 
-        public async Task HandleMessage(TextMessageReceived receivedMessage)
+        public void HandleMessage(TextMessageReceived receivedMessage)
         {
             foreach (Entry entry in receivedMessage.Entry)
             {
                 foreach (Change change in entry.Changes)
                 {
-                    await AnswerMessage(change);
+                    Task.Run(() => AnswerMessage(change));
                 }
             }
         }
