@@ -17,6 +17,14 @@ namespace Whatsapp.API.Endpoints.MessagesSender
             app.MapPost("/audioByUrl", SendAudioByUrl);
 
             app.MapPost("/documentByUrl", SendDocumentByUrl);
+
+            app.MapPost("/templateMessage", SendMessageTemplate);
+        }
+
+        private static async Task<IResult> SendMessageTemplate(IMessageServices messageServices, TemplateMessageVM templateMessage)
+        {
+            var result = await messageServices.SendMesssageTemplate(templateMessage);
+            return Results.Ok(result);
         }
 
         private static async Task<IResult> SendImageByUrl(IMessageServices messageServices, MediaMessageVM image)

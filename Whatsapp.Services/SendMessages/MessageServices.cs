@@ -50,6 +50,19 @@ namespace Whatsapp.Services.SendMessages
             return responseString;
         }
 
+        public async Task<string> SendMesssageTemplate(TemplateMessageVM templateMessageVM)
+        {
+            var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName);
+
+            var messageJson = JsonConvert.SerializeObject(templateMessage);
+
+            var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(messageJson, Encoding.UTF8, "application/json"));
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            return responseString;
+        }
+
         public async Task<string> SendMediaByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
         {
             var media = _mapper.Map<T>(mediaVM);

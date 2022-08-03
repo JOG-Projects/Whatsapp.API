@@ -8,7 +8,7 @@ namespace Whatsapp.Domain
         public string MessagingProduct { get; } = "whatsapp";
 
         [JsonProperty("to")]
-        public string To { get; }
+        public string To { get; set; }
 
         public MessageBase(string to)
         {
