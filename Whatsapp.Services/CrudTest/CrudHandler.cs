@@ -44,14 +44,14 @@ namespace CrudTest
 
         private static async Task<string> SendDefaultMessage(string from)
         {
-            return await MessageServices.SendMessage(new TextMessageVM(from, _defaultMessage));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, _defaultMessage));
         }
 
         private static async Task<string> ListAllRequisitions(string from)
         {
-            await MessageServices.SendMessage(new TextMessageVM(from, RequisitionController.ListRequisitions()));
+            await MessageServices.SendTextMessage(new TextMessageVM(from, RequisitionController.ListRequisitions()));
 
-            return await MessageServices.SendMessage(new TextMessageVM(from, _defaultMessage));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, _defaultMessage));
         }
 
         #region State Handlers 
@@ -76,23 +76,24 @@ namespace CrudTest
 
             RequisitionController.CloseRequisition(Guid.Parse(receivedMessage));
 
-            await MessageServices.SendMessage(new TextMessageVM(from, "Requisição fechada com sucesso!!!"));
+            await MessageServices.SendTextMessage(new TextMessageVM(from, "Requisição fechada com sucesso!!!"));
 
-            return await MessageServices.SendMessage(new TextMessageVM(from, _defaultMessage));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, _defaultMessage));
         }
 
         private static async Task<string> HandleRequisitionName(string receivedMessage, string from)
         {
             CurrentState = CurrentStateEnum.RequestedRequisitionType;
 
-            RequisitionObject = new();
+            RequisitionObject = new()
+            {
+                CreatedDate = DateTime.Now,
+                RequisitionId = Guid.NewGuid(),
+                IsClosed = false,
+                RequisitionName = receivedMessage
+            };
 
-            RequisitionObject.CreatedDate = DateTime.Now;
-            RequisitionObject.RequisitionId = Guid.NewGuid();
-            RequisitionObject.IsClosed = false;
-            RequisitionObject.RequisitionName = receivedMessage;
-
-            return await MessageServices.SendMessage(new TextMessageVM(from, "Digite o tipo da requisição"));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, "Digite o tipo da requisição"));
         }
 
         private static async Task<string> HandleRequisitionType(string receivedMessage, string from)
@@ -103,9 +104,9 @@ namespace CrudTest
 
             RequisitionController.Add(RequisitionObject);
 
-            await MessageServices.SendMessage(new TextMessageVM(from, "Requisição cadastrada com sucesso!!!"));
+            await MessageServices.SendTextMessage(new TextMessageVM(from, "Requisição cadastrada com sucesso!!!"));
 
-            return await MessageServices.SendMessage(new TextMessageVM(from, _defaultMessage));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, _defaultMessage));
 
         }
 
@@ -117,14 +118,14 @@ namespace CrudTest
         {
             CurrentState = CurrentStateEnum.RequestedRequisitionName;
 
-            return await MessageServices.SendMessage(new TextMessageVM(from, "Digite o nome da requisição"));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, "Digite o nome da requisição"));
 
         }
         private static async Task<string> RequestRequisitionGuid(string from)
         {
             CurrentState = CurrentStateEnum.RequestedRequisitionGuid;
 
-            return await MessageServices.SendMessage(new TextMessageVM(from, "Digite o GUID da requisição que deseja fechar"));
+            return await MessageServices.SendTextMessage(new TextMessageVM(from, "Digite o GUID da requisição que deseja fechar"));
         }
         #endregion 
 

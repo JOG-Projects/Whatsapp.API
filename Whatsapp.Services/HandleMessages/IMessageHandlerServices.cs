@@ -1,6 +1,6 @@
 ﻿namespace Whatsapp.Services.Contracts
 {
-    public interface ITextMessageReceivedServices
+    public interface IMessageHandlerServices
     {
         void HandleMessage(TextMessageReceived receivedMessage);
     }

@@ -1,10 +1,9 @@
-﻿using Whatsapp.Domain;
-using Whatsapp.Services.Contracts;
+﻿using Whatsapp.Services.Contracts;
 using CrudTest;
 
 namespace Whatsapp.Services.HandleMessagesServices
 {
-    public class HandleMessagesServices : ITextMessageReceivedServices
+    public class HandleMessagesServices : IMessageHandlerServices
     {
         private readonly IMessageServices MessageServices; 
 
