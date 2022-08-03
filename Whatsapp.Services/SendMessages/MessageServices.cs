@@ -7,6 +7,7 @@ using System.Text;
 using Whatsapp.Domain;
 using Whatsapp.Domain.MediaMessages;
 using Whatsapp.Services.Contracts;
+using Whatsapp.Services.Extensions;
 using Whatsapp.Services.MediaUpload;
 using Whatsapp.Services.ViewModels;
 
@@ -14,64 +15,37 @@ namespace Whatsapp.Services.SendMessages
 {
     public class MessageServices : IMessageServices
     {
+        private readonly WhatsappIntegrationConfiguration _whatsappConfiguration;
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
 
-        private string BaseUrl { get; }
-        private string EndpointPostMessages { get; }
-        private string EndpointPostMediaUpload { get; }
-
-
-        public MessageServices(IConfiguration configuration, HttpClient httpClient, IHostEnvironment environment, IMapper mapper)
+        public MessageServices(IConfiguration configuration, IMapper mapper, WhatsappIntegrationConfiguration whatsappConfiguration, HttpClient httpClient)
         {
-            BaseUrl = $"https://graph.facebook.com/v13.0/{configuration["PhoneNumberId"]}";
-            EndpointPostMessages = $"{BaseUrl}/messages";
-            EndpointPostMediaUpload = $"{BaseUrl}/media";
+            _whatsappConfiguration = whatsappConfiguration;
 
             _httpClient = httpClient;
             _mapper = mapper;
             ConfigureHttpClient(configuration["Bearer"]);
         }
 
-        public async Task<string> SendMessage(TextMessageVM message)
+        public async Task<string> SendTextMessage(TextMessageVM message)
         {
             var txtMessage = new TextMessage(message.To, message.Text, message.PreviewUrl ?? true);
-            return await SendMessage(txtMessage);
-        }
-
-        public async Task<string> SendMessage(TextMessage txtMessage)
-        {
-            var messageJson = JsonConvert.SerializeObject(txtMessage);
-
-            var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(messageJson, Encoding.UTF8, "application/json"));
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            return responseString;
+            return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, txtMessage);
         }
 
         public async Task<string> SendMessageTemplate(TemplateMessageVM templateMessageVM)
         {
             var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName);
 
-            var messageJson = JsonConvert.SerializeObject(templateMessage);
-
-            var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(messageJson, Encoding.UTF8, "application/json"));
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            return responseString;
+            return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, templateMessage);
         }
 
         public async Task<string> SendMediaByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
         {
             var media = _mapper.Map<T>(mediaVM);
 
-            var response = await _httpClient.PostAsync(EndpointPostMessages, new StringContent(JsonConvert.SerializeObject(media), Encoding.UTF8, "application/json"));
-
-            var stringResponse = await response.Content.ReadAsStringAsync();
-
-            return stringResponse;
+            return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, media);
         }
 
         private void ConfigureHttpClient(string bearer)
@@ -89,8 +63,8 @@ namespace Whatsapp.Services.SendMessages
         public async Task<string> SendDefaultMessage(string from)
         {
             var textMessage = new TextMessageVM(from, "teste");
-            return await SendMessage(textMessage);
+            return await SendTextMessage(textMessage);
         }
- 
+
     }
 }
