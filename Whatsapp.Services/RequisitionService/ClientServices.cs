@@ -1,4 +1,4 @@
-﻿namespace Whatsapp.Services.CrudServices
+﻿namespace Whatsapp.Services.RequisitionService
 {
     public class ClientServices
     {
