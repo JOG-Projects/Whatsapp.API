@@ -23,7 +23,7 @@ namespace Whatsapp.API.Endpoints.MessagesSender
 
         private static async Task<IResult> SendMessageTemplate(IMessageServices messageServices, TemplateMessageVM templateMessage)
         {
-            var result = await messageServices.SendMesssageTemplate(templateMessage);
+            var result = await messageServices.SendMessageTemplate(templateMessage);
             return Results.Ok(result);
         }
 

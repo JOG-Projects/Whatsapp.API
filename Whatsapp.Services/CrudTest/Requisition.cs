@@ -24,7 +24,7 @@ namespace CrudTest
         }
         public override string ToString()
         {
-            return $"Nome da Requisição : {RequisitionName}\n Tipo da Requisição : {RequisitionType}\n" +
+            return $" Nome da Requisição : {RequisitionName}\n Tipo da Requisição : {RequisitionType}\n" +
                 $" Id : {RequisitionId}\n Data de Criação : {CreatedDate}\n Fechada : {IsClosed}";
         }
 

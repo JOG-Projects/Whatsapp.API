@@ -50,7 +50,7 @@ namespace Whatsapp.Services.SendMessages
             return responseString;
         }
 
-        public async Task<string> SendMesssageTemplate(TemplateMessageVM templateMessageVM)
+        public async Task<string> SendMessageTemplate(TemplateMessageVM templateMessageVM)
         {
             var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName);
 
@@ -91,5 +91,6 @@ namespace Whatsapp.Services.SendMessages
             var textMessage = new TextMessageVM(from, "teste");
             return await SendMessage(textMessage);
         }
+ 
     }
 }

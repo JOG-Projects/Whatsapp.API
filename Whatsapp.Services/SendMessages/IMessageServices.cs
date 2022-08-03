@@ -17,6 +17,6 @@ namespace Whatsapp.Services.Contracts
 
         public Task<string> SendDefaultMessage(string from);
 
-        public Task<string> SendMesssageTemplate(TemplateMessageVM templateMessageVM);
+        public Task<string> SendMessageTemplate(TemplateMessageVM templateMessageVM);
     }
 }
