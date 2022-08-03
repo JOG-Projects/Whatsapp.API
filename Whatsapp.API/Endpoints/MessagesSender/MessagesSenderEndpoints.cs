@@ -23,31 +23,31 @@ namespace Whatsapp.API.Endpoints.MessagesSender
 
         private static async Task<IResult> SendMessageTemplate(IMessageServices messageServices, TemplateMessageVM templateMessage)
         {
-            var result = await messageServices.SendMessageTemplate(templateMessage);
+            var result = await messageServices.SendTemplateMessage(templateMessage);
             return Results.Ok(result);
         }
 
         private static async Task<IResult> SendImageByUrl(IMessageServices messageServices, MediaMessageVM image)
         {
-            var result = await messageServices.SendMediaByUrl<ImageMessage>(image);
+            var result = await messageServices.SendMediaMessageByUrl<ImageMessage>(image);
             return Results.Ok(result);
         }
 
         private static async Task<IResult> SendVideoByUrl(IMessageServices messageServices, MediaMessageVM video)
         {
-            var result = await messageServices.SendMediaByUrl<VideoMessage>(video);
+            var result = await messageServices.SendMediaMessageByUrl<VideoMessage>(video);
             return Results.Ok(result);
         }
 
         private static async Task<IResult> SendAudioByUrl(IMessageServices messageServices, MediaMessageVM audio)
         {
-            var result = await messageServices.SendMediaByUrl<AudioMessage>(audio);
+            var result = await messageServices.SendMediaMessageByUrl<AudioMessage>(audio);
             return Results.Ok(result);
         }
 
         private static async Task<IResult> SendDocumentByUrl(IMessageServices messageServices, MediaMessageVM document)
         {
-            var result = await messageServices.SendMediaByUrl<DocumentMessage>(document);
+            var result = await messageServices.SendMediaMessageByUrl<DocumentMessage>(document);
             return Results.Ok(result);
         }
 

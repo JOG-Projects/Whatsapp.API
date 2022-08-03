@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Text;
 using Whatsapp.Domain;
 using Whatsapp.Domain.MediaMessages;
 using Whatsapp.Services.Contracts;
@@ -34,14 +31,14 @@ namespace Whatsapp.Services.SendMessages
             return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, txtMessage);
         }
 
-        public async Task<string> SendMessageTemplate(TemplateMessageVM templateMessageVM)
+        public async Task<string> SendTemplateMessage(TemplateMessageVM templateMessageVM)
         {
             var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName);
 
             return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, templateMessage);
         }
 
-        public async Task<string> SendMediaByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
+        public async Task<string> SendMediaMessageByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
         {
             var media = _mapper.Map<T>(mediaVM);
 
