@@ -43,7 +43,7 @@ namespace Whatsapp.Services.HandleMessagesServices
                 }
                 catch (Exception ex)
                 {
-                    await _messageServices.SendTextMessage(new (contact.Wa_id, ex.Message));
+                    await _messageServices.SendTextMessage(new (contact.Wa_id, ex.ToString()));
                 }
             }
         }
