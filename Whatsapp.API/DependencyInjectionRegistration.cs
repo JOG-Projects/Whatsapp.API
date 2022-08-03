@@ -1,5 +1,4 @@
-﻿using CrudTest;
-using Whatsapp.Services;
+﻿using Whatsapp.Services;
 using Whatsapp.Services.Contracts;
 using Whatsapp.Services.FileServer;
 using Whatsapp.Services.HandleMessagesServices;
@@ -15,9 +14,8 @@ namespace Whatsapp.API
             services.AddSingleton<HttpClient>();
             services.AddSingleton<IMessageServices, MessageServices>();
             services.AddSingleton<IWebhookNotifierServices, WebhookNotifierServices>();
-            services.AddSingleton<ITextMessageReceivedServices, HandleMessagesServices>();
+            services.AddSingleton<IMessageHandlerServices, HandleMessagesServices>();
             services.AddSingleton<IMediaServices, MediaServices>();
-            services.AddSingleton<RequisitionController>();
         }
     }
 }
