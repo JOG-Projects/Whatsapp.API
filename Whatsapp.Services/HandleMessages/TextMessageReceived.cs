@@ -8,7 +8,7 @@
 
     public class Contact
     {
-        public ProfilesEXO Profile { get; set; }
+        public Profile Profile { get; set; }
         public string Wa_id { get; set; }
     }
 
@@ -33,7 +33,7 @@
         public string Phone_number_id { get; set; }
     }
 
-    public class ProfilesEXO
+    public class Profile
     {
         public string Name { get; set; }
     }

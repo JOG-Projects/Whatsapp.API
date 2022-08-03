@@ -1,18 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Whatsapp.Domain
 {
     public class TemplateMessage : MessageBase
     {
-        public TemplateMessage(string to, string templateName) : base(to)
+        public TemplateMessage(string to, string templateName, string templateLanguage = "pt_BR") : base(to)
         {
-            Template = new(templateName);
-            To = to;
+            Template = new(templateName, templateLanguage);
         }
 
         [JsonProperty("type")]
@@ -24,9 +18,9 @@ namespace Whatsapp.Domain
 
     public class Template
     {
-        public Template(string name)
+        public Template(string name, string templateLanguage)
         {
-            Language = new();
+            Language = new(templateLanguage);
             Name = name;
         }
 
@@ -40,6 +34,11 @@ namespace Whatsapp.Domain
     public class Language
     {
         [JsonProperty("code")]
-        public string Code { get; } = "pt_BR";        
+        public string Code { get; }
+
+        public Language(string code)
+        {
+            Code = code;
+        }
     }
 }
