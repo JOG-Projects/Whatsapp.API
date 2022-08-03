@@ -1,5 +1,5 @@
-﻿using System.Net.Http.Json;
-using Whatsapp.Services.Contracts;
+﻿using Whatsapp.Services.Contracts;
+using Whatsapp.Services.Extensions;
 
 namespace Whatsapp.Services.Webhook
 {
@@ -29,12 +29,7 @@ namespace Whatsapp.Services.Webhook
                 return;
             }
 
-            await GetReturn(_client, textMessage);
-        }
-
-        private async Task GetReturn(string endpoint, TextMessageReceived textMessage)
-        {
-            await _httpClient.PostAsync(endpoint, JsonContent.Create(textMessage));
+            await _httpClient.PostJsonAsync(_client, textMessage);
         }
     }
 }
