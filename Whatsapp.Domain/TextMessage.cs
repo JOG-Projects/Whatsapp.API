@@ -16,6 +16,7 @@ namespace Whatsapp.Domain
         public TextMessage(string to, string text, bool preview = true) : base(to)
         {
             Text = new(text);
+            PreviewUrl = preview;
         }
     }
 
