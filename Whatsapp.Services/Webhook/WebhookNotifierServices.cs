@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using Whatsapp.Services.Contracts;
 
 namespace Whatsapp.Services.Webhook
 {
@@ -6,10 +7,12 @@ namespace Whatsapp.Services.Webhook
     {
         private string _client;
         private readonly HttpClient _httpClient;
+        private readonly IMessageHandlerServices _messageHandlerServices;
 
-        public WebhookNotifierServices(HttpClient httpClient)
+        public WebhookNotifierServices(IMessageHandlerServices messageHandlerServices, HttpClient httpClient)
         {
-            _client = "";
+            _client = string.Empty;
+            _messageHandlerServices = messageHandlerServices;
             _httpClient = httpClient;
         }
 
@@ -18,24 +21,20 @@ namespace Whatsapp.Services.Webhook
             _client = endpoint;
         }
 
-        public async Task<(string, string)> NotifyEndpoints(TextMessageReceived textMessage)
+        public async Task NotifyEndpoints(TextMessageReceived textMessage)
         {
-            return await GetReturn(_client, textMessage);
+            if (_client == string.Empty)
+            {
+                _messageHandlerServices.HandleMessage(textMessage);
+                return;
+            }
+
+            await GetReturn(_client, textMessage);
         }
 
-        private async Task<(string endpoint, string)> GetReturn(string endpoint, TextMessageReceived textMessage)
+        private async Task GetReturn(string endpoint, TextMessageReceived textMessage)
         {
-            try
-            {
-                var response = await _httpClient.PostAsync(endpoint, JsonContent.Create(textMessage));
-                var res = await response.Content.ReadAsStringAsync();
-
-                return (endpoint, res);
-            }
-            catch
-            {
-                return (endpoint, "Error");
-            }
+            await _httpClient.PostAsync(endpoint, JsonContent.Create(textMessage));
         }
     }
 }

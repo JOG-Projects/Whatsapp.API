@@ -2,8 +2,8 @@
 {
     public interface IWebhookNotifierServices
     {
-        void Add(string endpoint);
+        public void Add(string endpoint);
 
-        public Task<(string, string)> NotifyEndpoints(TextMessageReceived textMessage);
+        public Task NotifyEndpoints(TextMessageReceived textMessage);
     }
 }
