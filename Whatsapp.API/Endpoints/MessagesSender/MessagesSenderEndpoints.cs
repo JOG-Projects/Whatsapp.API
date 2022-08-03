@@ -53,7 +53,7 @@ namespace Whatsapp.API.Endpoints.MessagesSender
 
         private static async Task<IResult> SendTextMessage(IMessageServices msgServices, TextMessageVM message)
         {
-            var result = await msgServices.SendMessage(message);
+            var result = await msgServices.SendTextMessage(message);
             return Results.Ok(result);
         }
     }

@@ -11,7 +11,7 @@ namespace Whatsapp.API.Endpoints.MessagesHandler
 
         }
 
-        private IResult HandleMessage(ITextMessageReceivedServices textMessageServices, TextMessageReceived textMessage)
+        private IResult HandleMessage(IMessageHandlerServices textMessageServices, TextMessageReceived textMessage)
         {
             textMessageServices.HandleMessage(textMessage);
             return Results.Ok();
