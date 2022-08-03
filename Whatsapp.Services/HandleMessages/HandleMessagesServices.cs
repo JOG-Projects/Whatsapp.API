@@ -6,10 +6,12 @@ namespace Whatsapp.Services.HandleMessagesServices
     public class HandleMessagesServices : IMessageHandlerServices
     {
         private readonly RequisitionServices _requisitionServices;
+        private readonly IMessageServices _messageServices;
 
-        public HandleMessagesServices(RequisitionServices requisitionServices)
+        public HandleMessagesServices(RequisitionServices requisitionServices, IMessageServices messageServices)
         {
             _requisitionServices = requisitionServices;
+            _messageServices = messageServices;
         }
 
         public void HandleMessage(TextMessageReceived receivedMessage)
@@ -32,10 +34,17 @@ namespace Whatsapp.Services.HandleMessagesServices
 
             foreach ((var message, var contact) in change.Value.Messages.Zip(change.Value.Contacts))
             {
-                string receivedMessage = message.Text.Body;
-                string from = contact.Wa_id;
+                try
+                {
+                    string receivedMessage = message.Text.Body;
+                    string from = contact.Wa_id;
 
-                await _requisitionServices.HandleMessage(receivedMessage, from);
+                    await _requisitionServices.HandleMessage(receivedMessage, from);
+                }
+                catch (Exception ex)
+                {
+                    await _messageServices.SendTextMessage(new (contact.Wa_id, ex.Message));
+                }
             }
         }
     }
