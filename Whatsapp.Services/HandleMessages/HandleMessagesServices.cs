@@ -1,15 +1,15 @@
 ﻿using Whatsapp.Services.Contracts;
-using CrudTest;
+using Whatsapp.Services.CrudServices;
 
 namespace Whatsapp.Services.HandleMessagesServices
 {
     public class HandleMessagesServices : IMessageHandlerServices
     {
-        private readonly IMessageServices MessageServices; 
+        private readonly CrudHandler _crudHandler;
 
-        public HandleMessagesServices(IMessageServices messageServices)
+        public HandleMessagesServices(CrudHandler crudHandler)
         {
-            MessageServices = messageServices;
+            _crudHandler = crudHandler;
         }
 
         public void HandleMessage(TextMessageReceived receivedMessage)
@@ -35,7 +35,7 @@ namespace Whatsapp.Services.HandleMessagesServices
                 string receivedMessage = message.Text.Body;
                 string from = contact.Wa_id;
 
-                await CrudHandler.Handle(receivedMessage, from, MessageServices);
+                await _crudHandler.HandleMessage(receivedMessage, from);
             }
         }
     }

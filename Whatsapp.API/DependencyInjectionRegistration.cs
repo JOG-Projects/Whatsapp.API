@@ -1,4 +1,5 @@
-﻿using Whatsapp.Services;
+﻿using Whatsapp.Services.CrudServices;
+using Whatsapp.Services;
 using Whatsapp.Services.Contracts;
 using Whatsapp.Services.FileServer;
 using Whatsapp.Services.HandleMessagesServices;
@@ -16,6 +17,8 @@ namespace Whatsapp.API
             services.AddSingleton<IWebhookNotifierServices, WebhookNotifierServices>();
             services.AddSingleton<IMessageHandlerServices, HandleMessagesServices>();
             services.AddSingleton<IMediaServices, MediaServices>();
+            services.AddSingleton<CrudHandler>();
+            services.AddSingleton<ClientServices>();
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CrudTest
+﻿namespace Whatsapp.Services.CrudServices
 {
     public class Requisition
     {
@@ -22,11 +16,11 @@ namespace CrudTest
         {
             IsClosed = true;
         }
+
         public override string ToString()
         {
             return $" Nome da Requisição : {RequisitionName}\n Tipo da Requisição : {RequisitionType}\n" +
                 $" Id : {RequisitionId}\n Data de Criação : {CreatedDate}\n Fechada : {IsClosed}";
         }
-
     }
 }
