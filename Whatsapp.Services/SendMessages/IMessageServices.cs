@@ -13,8 +13,6 @@ namespace Whatsapp.Services.Contracts
 
         public Task<string> UploadMedia(ImageUploadRequestVM image);
 
-        public Task<string> SendDefaultMessage(string from);
-
         public Task<string> SendMessageTemplate(TemplateMessageVM templateMessageVM);
     }
 }

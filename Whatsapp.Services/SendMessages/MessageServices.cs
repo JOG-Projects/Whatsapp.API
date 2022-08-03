@@ -59,12 +59,5 @@ namespace Whatsapp.Services.SendMessages
         {
             throw new NotImplementedException();
         }
-
-        public async Task<string> SendDefaultMessage(string from)
-        {
-            var textMessage = new TextMessageVM(from, "teste");
-            return await SendTextMessage(textMessage);
-        }
-
     }
 }
