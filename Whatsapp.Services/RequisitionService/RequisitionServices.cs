@@ -45,7 +45,9 @@ namespace Whatsapp.Services.RequisitionService
 
         private async Task<string> ListAllRequisitions(Client client)
         {
-            await _messageServices.SendTextMessage(new TextMessageVM(client.Number, client.ListRequisitions()));
+            var envios = client.RegisteredRequisitions.Select(r => _messageServices.SendTextMessage(new TextMessageVM(client.Number, r.ToString())));
+
+            await Task.WhenAll(envios);
 
             return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, _defaultMessage));
         }
