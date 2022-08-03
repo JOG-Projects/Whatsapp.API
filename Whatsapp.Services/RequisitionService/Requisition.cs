@@ -19,8 +19,7 @@
 
         public override string ToString()
         {
-            return $" Nome da Requisição : {RequisitionName}\n Tipo da Requisição : {RequisitionType}\n" +
-                $" Id : {RequisitionId}\n Data de Criação : {CreatedDate}\n Fechada : {IsClosed}";
+            return $"Nome da Requisição : {RequisitionName}\nTipo da Requisição : {RequisitionType}\nId : {RequisitionId}\nData de Criação : {CreatedDate}\n {(IsClosed ? "Fechada" : "Aberta")}";
         }
     }
 }
