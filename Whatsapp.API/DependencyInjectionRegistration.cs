@@ -19,6 +19,7 @@ namespace Whatsapp.API
             services.AddSingleton<IMediaServices, MediaServices>();
             services.AddSingleton<CrudHandler>();
             services.AddSingleton<ClientServices>();
+            services.AddSingleton<WhatsappIntegrationConfiguration>();
         }
     }
 }
