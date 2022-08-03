@@ -1,11 +1,12 @@
 ﻿using Whatsapp.Domain;
 using Whatsapp.Services.Contracts;
+using CrudTest;
 
 namespace Whatsapp.Services.HandleMessagesServices
 {
     public class HandleMessagesServices : ITextMessageReceivedServices
     {
-        private readonly IMessageServices MessageServices;
+        private readonly IMessageServices MessageServices; 
 
         public HandleMessagesServices(IMessageServices messageServices)
         {
@@ -32,8 +33,10 @@ namespace Whatsapp.Services.HandleMessagesServices
 
             foreach ((var message, var contact) in change.Value.Messages.Zip(change.Value.Contacts))
             {
-                var from = contact.Wa_id;                
-                await MessageServices.SendDefaultMessage(from);
+                string receivedMessage = message.Text.Body;
+                string from = contact.Wa_id;
+
+                await CrudHandler.Handle(receivedMessage, from, MessageServices);
             }
         }
     }
