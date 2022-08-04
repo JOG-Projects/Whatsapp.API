@@ -12,27 +12,27 @@ namespace Whatsapp.API.Endpoints.TestEndpoints
             app.MapPost("sendLinkAndClientData", HandleLinkAndData);
         }
 
-        private async Task HandleLinkAndData(IMessageServices messageServices, ClientRepository clientRepository, string clientNumber, string youtubeLink)
+        private async Task<IResult> HandleLinkAndData(IMessageServices messageServices, ClientRepository clientRepository, string clientNumber, string youtubeLink)
         {
-            const string templateName = "variables_test_01";
+            const string templateName = "variables_test_02";
 
-            var primeiraRequisicao = clientRepository.GetClient(clientNumber).RegisteredRequisitions.First();
+            var primeiraRequisicao = clientRepository.GetClient(clientNumber).RegisteredRequisitions.FirstOrDefault()?? new Requisition {RequisitionName = "TesteNome", RequisitionType = "TesteTipo"};
 
             var components = new List<Component>()
             {
                 new Component("body", new List<Parameter>()
                 {
-                    new Parameter(primeiraRequisicao.ToString(), youtubeLink),
+                    new Parameter("text", primeiraRequisicao.RequisitionName.ToString()),
                 }),
                 new Component("button", new List<Parameter>()
                 {
                     new Parameter("text", youtubeLink),
-                }, "url", "1"),
+                }, "url", "0"),
             };
 
             var vm = new TemplateMessageVM(clientNumber, templateName, components);
 
-            await messageServices.SendTemplateMessage(vm);
+            return Results.Ok(await messageServices.SendTemplateMessage(vm));
         }
     }
 }
