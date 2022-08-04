@@ -74,7 +74,7 @@ namespace Whatsapp.Services.RequisitionService
         {
             client.CloseRequisition(Guid.Parse(receivedMessage));
 
-            await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _requisitionClosed));
+            await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Requisição fechada com sucesso!"));
 
             return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
@@ -83,14 +83,14 @@ namespace Whatsapp.Services.RequisitionService
         {
             client.AddRequisitionName(receivedMessage);
 
-            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _getRequisitionType));
+            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Digite o tipo da requisição:"));
         }
 
         private async Task HandleRequisitionType(Client client, string receivedMessage)
         {
             client.AddRequisitionType(receivedMessage);
 
-            await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _requisitionSuccess));
+            await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Requisição cadastrada com sucesso!!!"));
 
             await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
@@ -103,23 +103,18 @@ namespace Whatsapp.Services.RequisitionService
         {
             client.UpdateState(CurrentStateEnum.RequestedRequisitionName);
 
-            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _getRequisitionName));
+            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Digite o nome da requisição:"));
         }
 
         private async Task<string> RequestRequisitionGuid(Client client)
         {
             client.UpdateState(CurrentStateEnum.RequestedRequisitionGuid);
 
-            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _getRequisitionGUID));
+            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Informe o ID da requisição:"));
         }
 
         #endregion 
 
-        private const string _defaultMessage = "default_message_test_01";        
-        private const string _getRequisitionName = "get_requisition_name_test_01";
-        private const string _requisitionSuccess = "requisition_success_test_01";
-        private const string _getRequisitionType = "get_requisition_type_test_01";
-        private const string _getRequisitionGUID = "get_requisition_guid_test_01";
-        private const string _requisitionClosed = "requisition_closed_test_01";
+        private const string _defaultMessage = "default_message_test_01";
     }
 }
