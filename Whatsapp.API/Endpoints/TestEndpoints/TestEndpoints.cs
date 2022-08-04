@@ -10,6 +10,7 @@ namespace Whatsapp.API.Endpoints.TestEndpoints
         public void DefineEndpoints(WebApplication app)
         {
             app.MapPost("sendLinkAndClientData", HandleLinkAndData);
+            app.MapPost("propaganda", HandlePropaganda);
         }
 
         private async Task HandleLinkAndData(IMessageServices messageServices, ClientRepository clientRepository, string clientNumber, string youtubeLink)
@@ -31,6 +32,15 @@ namespace Whatsapp.API.Endpoints.TestEndpoints
             };
 
             var vm = new TemplateMessageVM(clientNumber, templateName, components);
+
+            await messageServices.SendTemplateMessage(vm);
+        }
+
+        private async Task HandlePropaganda(IMessageServices messageServices, string clientNumber)
+        {
+            const string templateName = "propaganda";
+
+            var vm = new TemplateMessageVM(clientNumber, templateName);
 
             await messageServices.SendTemplateMessage(vm);
         }
