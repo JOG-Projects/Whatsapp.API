@@ -21,7 +21,7 @@ namespace Whatsapp.Services.Webhook
             _client = endpoint;
         }
 
-        public async Task NotifyEndpoints(TextMessageReceived textMessage)
+        public async Task NotifyEndpoints(MessageReceived textMessage)
         {
             if (_client == string.Empty)
             {

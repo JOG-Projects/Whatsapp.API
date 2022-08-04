@@ -1,5 +1,5 @@
-﻿using Whatsapp.Services.Contracts;
-using Whatsapp.Services.HandleMessages;
+﻿using System.Text.Json;
+using Whatsapp.Services.Contracts;
 using Whatsapp.Services.RequisitionService;
 
 namespace Whatsapp.Services.HandleMessagesServices
@@ -15,7 +15,7 @@ namespace Whatsapp.Services.HandleMessagesServices
             _messageServices = messageServices;
         }
 
-        public void HandleMessage(TextMessageReceived receivedMessage)
+        public void HandleMessage(MessageReceived receivedMessage)
         {
             foreach (Entry entry in receivedMessage.Entry)
             {
@@ -28,6 +28,12 @@ namespace Whatsapp.Services.HandleMessagesServices
 
         private async Task AnswerMessage(Change change)
         {
+            //switch (change.Value.)
+            //{
+            //    default:
+            //        break;
+            //}
+
             if (change.Value.Messages == null || change.Value.Contacts == null)
             {
                 return;

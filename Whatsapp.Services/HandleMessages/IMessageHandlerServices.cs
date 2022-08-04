@@ -1,9 +1,7 @@
-﻿using Whatsapp.Services.HandleMessages;
-
-namespace Whatsapp.Services.Contracts
+﻿namespace Whatsapp.Services.Contracts
 {
     public interface IMessageHandlerServices
     {
-        void HandleMessage(TextMessageReceived receivedMessage);
+        void HandleMessage(MessageReceived receivedMessage);
     }
 }
