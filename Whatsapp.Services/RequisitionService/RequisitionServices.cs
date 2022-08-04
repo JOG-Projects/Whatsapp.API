@@ -41,7 +41,6 @@ namespace Whatsapp.Services.RequisitionService
 
         private async Task<string> SendDefaultMessage(Client client)
         {
-            //trocar para template message padrao cadastrada no site do meta, utilizando o _messageServices.SendMessageTemplate
             return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
 
