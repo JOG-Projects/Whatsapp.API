@@ -14,7 +14,7 @@ namespace Whatsapp.API.Endpoints.TestEndpoints
 
         private async Task<IResult> HandleLinkAndData(IMessageServices messageServices, ClientRepository clientRepository, string clientNumber, string youtubeLink)
         {
-            const string templateName = "variables_test_02";
+            const string templateName = "test_link_data";
 
             var primeiraRequisicao = clientRepository.GetClient(clientNumber).RegisteredRequisitions.FirstOrDefault()?? new Requisition {RequisitionName = "TesteNome", RequisitionType = "TesteTipo"};
 

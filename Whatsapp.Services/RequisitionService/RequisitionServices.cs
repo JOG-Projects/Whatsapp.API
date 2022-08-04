@@ -114,6 +114,6 @@ namespace Whatsapp.Services.RequisitionService
 
         #endregion 
 
-        private const string _defaultMessage = "default_message_test_01";
+        private const string _defaultMessage = "menu_requisicao";
     }
 }
