@@ -84,8 +84,8 @@
 
     public class Button
     {
-        public object Payload { get; set; }
-        public object Text { get; set; }
+        public string Payload { get; set; }
+        public string Text { get; set; }
     }
 
     public class Sticker
