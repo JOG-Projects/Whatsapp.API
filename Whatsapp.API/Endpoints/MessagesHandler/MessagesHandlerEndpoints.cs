@@ -9,11 +9,7 @@ namespace Whatsapp.API.Endpoints.MessagesHandler
     {
         public void DefineEndpoints(WebApplication app)
         {
-            app.MapPost("/handleMessage", async ctx =>
-            {
-                var reader = new StreamReader(ctx.Request.Body);
-                var json = await reader.ReadToEndAsync();
-            });
+            app.MapPost("/handleMessage", HandleMessage);
         }
 
         private IResult HandleMessage(IMessageHandlerServices handlerServices, MessageReceived textMessage)
