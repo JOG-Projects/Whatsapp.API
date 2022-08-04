@@ -1,4 +1,12 @@
 ﻿namespace Whatsapp.Services.ViewModels
 {
-    public record MediaMessageVM(string To, string Link);
+    public record MediaMessageVM : BaseVM
+    {
+        public MediaMessageVM(string to, string link) : base(to)
+        {
+            Link = link;
+        }
+
+        public string Link { get; }
+    }
 }

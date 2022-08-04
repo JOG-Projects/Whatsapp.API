@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using Whatsapp.Domain;
 using Whatsapp.Domain.MediaMessages;
@@ -25,24 +26,31 @@ namespace Whatsapp.Services.SendMessages
             ConfigureHttpClient(configuration["Bearer"]);
         }
 
-        public async Task<string> SendTextMessage(TextMessageVM message)
+        public async Task<SuccessResponse> SendMessage<T>(object viewModel)
         {
-            var txtMessage = new TextMessage(message.To, message.Text, message.PreviewUrl ?? true);
-            return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, txtMessage);
+            var message = _mapper.Map<T>(viewModel)!;
+            var jsonResponse = await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, message);
+            return JsonExtensions.TryJsonDeserialize<SuccessResponse>(jsonResponse) ?? throw new Exception(jsonResponse);
         }
 
-        public async Task<string> SendTemplateMessage(TemplateMessageVM templateMessageVM)
+        public async Task<SuccessResponse> SendTextMessage(TextMessageVM model)
         {
-            var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName, templateMessageVM.Componentes);
-
-            return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, templateMessage);
+            return await SendMessage<TextMessage>(model);
         }
 
-        public async Task<string> SendMediaMessageByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
+        public async Task<SuccessResponse> SendTemplateMessage(TemplateMessageVM model)
         {
-            var media = _mapper.Map<T>(mediaVM);
+            return await SendMessage<TemplateMessage>(model);
+        }
 
-            return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, media);
+        public async Task<SuccessResponse> SendMediaMessageByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage
+        {
+            return await SendMessage<T>(mediaVM);
+        }
+
+        public Task<string> UploadMedia(ImageUploadRequestVM image)
+        {
+            throw new NotImplementedException();
         }
 
         private void ConfigureHttpClient(string bearer)
@@ -50,11 +58,6 @@ namespace Whatsapp.Services.SendMessages
             _httpClient.DefaultRequestHeaders.Authorization = new("Bearer", bearer);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
-        public Task<string> UploadMedia(ImageUploadRequestVM image)
-        {
-            throw new NotImplementedException();
         }
     }
 }
