@@ -1,4 +1,6 @@
-﻿namespace Whatsapp.Services.ViewModels
+﻿using Whatsapp.Domain;
+
+namespace Whatsapp.Services.ViewModels
 {
-    public record TemplateMessageVM(string To, string TemplateName);
+    public record TemplateMessageVM(string To, string TemplateName, List<Component>? Componentes = null);
 }

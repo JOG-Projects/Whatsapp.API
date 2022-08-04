@@ -33,7 +33,7 @@ namespace Whatsapp.Services.SendMessages
 
         public async Task<string> SendTemplateMessage(TemplateMessageVM templateMessageVM)
         {
-            var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName);
+            var templateMessage = new TemplateMessage(templateMessageVM.To, templateMessageVM.TemplateName, templateMessageVM.Componentes);
 
             return await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, templateMessage);
         }
