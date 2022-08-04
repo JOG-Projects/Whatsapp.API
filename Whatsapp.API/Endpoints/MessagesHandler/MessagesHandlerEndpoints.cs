@@ -1,6 +1,7 @@
-﻿using Whatsapp.Services;
+﻿using System.Text;
+using System.Text.Json;
+using Whatsapp.Services;
 using Whatsapp.Services.Contracts;
-using Whatsapp.Services.HandleMessages;
 
 namespace Whatsapp.API.Endpoints.MessagesHandler
 {
@@ -8,10 +9,14 @@ namespace Whatsapp.API.Endpoints.MessagesHandler
     {
         public void DefineEndpoints(WebApplication app)
         {
-            app.MapPost("/handleMessage", HandleMessage);
+            app.MapPost("/handleMessage", async ctx =>
+            {
+                var reader = new StreamReader(ctx.Request.Body);
+                var json = await reader.ReadToEndAsync();
+            });
         }
 
-        private IResult HandleMessage(IMessageHandlerServices handlerServices, TextMessageReceived textMessage)
+        private IResult HandleMessage(IMessageHandlerServices handlerServices, MessageReceived textMessage)
         {
             handlerServices.HandleMessage(textMessage);
             return Results.Ok();
