@@ -17,7 +17,7 @@ namespace Whatsapp.Services.HandleMessagesServices
 
         public void HandleButtonResponse(ButtonResponseReceived buttonResponse)
         {
-            var test = "";
+            var test = "a";
 
             throw new NotImplementedException();
         }
