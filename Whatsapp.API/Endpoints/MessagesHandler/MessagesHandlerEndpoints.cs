@@ -1,5 +1,6 @@
 ﻿using Whatsapp.Services;
 using Whatsapp.Services.Contracts;
+using Whatsapp.Services.HandleMessages;
 
 namespace Whatsapp.API.Endpoints.MessagesHandler
 {
@@ -9,11 +10,18 @@ namespace Whatsapp.API.Endpoints.MessagesHandler
         {
             app.MapPost("/handleMessage", HandleMessage);
 
+            app.MapPost("/handleButtonResponse", HandleButtonResponse);
         }
 
-        private IResult HandleMessage(IMessageHandlerServices textMessageServices, TextMessageReceived textMessage)
+        private IResult HandleButtonResponse(IMessageHandlerServices handlerServices, ButtonResponseReceived buttonResponse)
         {
-            textMessageServices.HandleMessage(textMessage);
+            handlerServices.HandleButtonResponse(buttonResponse);
+            return Results.Ok();
+        }
+
+        private IResult HandleMessage(IMessageHandlerServices handlerServices, TextMessageReceived textMessage)
+        {
+            handlerServices.HandleMessage(textMessage);
             return Results.Ok();
         }
     }

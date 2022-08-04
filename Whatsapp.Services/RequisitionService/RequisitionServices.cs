@@ -113,7 +113,7 @@ namespace Whatsapp.Services.RequisitionService
 
         #endregion 
 
-        private const string _defaultMessage = "default_message";
+        private const string _defaultMessage = "default_message_test_01";
         private const string _getRequisitionName = "get_requisition_name_test_01";
         private const string _requisitionSuccess = "requisition_success_test_01";
         private const string _getRequisitionType = "get_requisition_type_test_01";

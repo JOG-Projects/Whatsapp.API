@@ -1,4 +1,5 @@
 ﻿using Whatsapp.Services.Contracts;
+using Whatsapp.Services.HandleMessages;
 using Whatsapp.Services.RequisitionService;
 
 namespace Whatsapp.Services.HandleMessagesServices
@@ -12,6 +13,13 @@ namespace Whatsapp.Services.HandleMessagesServices
         {
             _requisitionServices = requisitionServices;
             _messageServices = messageServices;
+        }
+
+        public void HandleButtonResponse(ButtonResponseReceived buttonResponse)
+        {
+            var test = "";
+
+            throw new NotImplementedException();
         }
 
         public void HandleMessage(TextMessageReceived receivedMessage)
