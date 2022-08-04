@@ -4,9 +4,9 @@ namespace Whatsapp.Domain
 {
     public class TemplateMessage : MessageBase
     {
-        public TemplateMessage(string to, string templateName, string templateLanguage = "pt_BR") : base(to)
+        public TemplateMessage(string to, string templateName, List<Component>? componentes = null, string templateLanguage = "pt_BR") : base(to)
         {
-            Template = new(templateName, templateLanguage);
+            Template = new(templateName, templateLanguage, componentes);
         }
 
         [JsonProperty("type")]
