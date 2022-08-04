@@ -9,14 +9,6 @@ namespace Whatsapp.API.Endpoints.MessagesHandler
         public void DefineEndpoints(WebApplication app)
         {
             app.MapPost("/handleMessage", HandleMessage);
-
-            app.MapPost("/handleButtonResponse", HandleButtonResponse);
-        }
-
-        private IResult HandleButtonResponse(IMessageHandlerServices handlerServices, ButtonResponseReceived buttonResponse)
-        {
-            handlerServices.HandleButtonResponse(buttonResponse);
-            return Results.Ok();
         }
 
         private IResult HandleMessage(IMessageHandlerServices handlerServices, TextMessageReceived textMessage)

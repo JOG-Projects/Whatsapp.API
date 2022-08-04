@@ -15,13 +15,6 @@ namespace Whatsapp.Services.HandleMessagesServices
             _messageServices = messageServices;
         }
 
-        public void HandleButtonResponse(ButtonResponseReceived buttonResponse)
-        {
-            var test = "a";
-
-            throw new NotImplementedException();
-        }
-
         public void HandleMessage(TextMessageReceived receivedMessage)
         {
             foreach (Entry entry in receivedMessage.Entry)
