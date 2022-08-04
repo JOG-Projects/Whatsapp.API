@@ -2,6 +2,6 @@
 {
     public interface IMessageHandlerServices
     {
-        void HandleMessage(TextMessageReceived receivedMessage);
+        void HandleMessage(MessageReceived receivedMessage);
     }
 }

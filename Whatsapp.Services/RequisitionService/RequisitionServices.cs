@@ -40,7 +40,7 @@ namespace Whatsapp.Services.RequisitionService
         private async Task<string> SendDefaultMessage(Client client)
         {
             //trocar para template message padrao cadastrada no site do meta, utilizando o _messageServices.SendMessageTemplate
-            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, _defaultMessage));
+            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
 
         private async Task<string> ListAllRequisitions(Client client)
@@ -49,7 +49,7 @@ namespace Whatsapp.Services.RequisitionService
 
             await Task.WhenAll(envios);
 
-            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, _defaultMessage));
+            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
 
         #region State Handlers 
@@ -72,26 +72,25 @@ namespace Whatsapp.Services.RequisitionService
         {
             client.CloseRequisition(Guid.Parse(receivedMessage));
 
-            await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Requisição fechada com sucesso!!!"));
+            await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _requisitionClosed));
 
-            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, _defaultMessage));
+            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
 
         private async Task<string> HandleRequisitionName(Client client, string receivedMessage)
         {
             client.AddRequisitionName(receivedMessage);
 
-            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Digite o tipo da requisição"));
+            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _getRequisitionType));
         }
 
         private async Task HandleRequisitionType(Client client, string receivedMessage)
         {
             client.AddRequisitionType(receivedMessage);
 
-            await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Requisição cadastrada com sucesso!!!"));
+            await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _requisitionSuccess));
 
-            await _messageServices.SendTextMessage(new TextMessageVM(client.Number, _defaultMessage));
-
+            await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _defaultMessage));
         }
 
         #endregion
@@ -102,19 +101,23 @@ namespace Whatsapp.Services.RequisitionService
         {
             client.UpdateState(CurrentStateEnum.RequestedRequisitionName);
 
-            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Digite o nome da requisição"));
-
+            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _getRequisitionName));
         }
 
         private async Task<string> RequestRequisitionGuid(Client client)
         {
             client.UpdateState(CurrentStateEnum.RequestedRequisitionGuid);
 
-            return await _messageServices.SendTextMessage(new TextMessageVM(client.Number, "Digite o GUID da requisição que deseja fechar"));
+            return await _messageServices.SendTemplateMessage(new TemplateMessageVM(client.Number, _getRequisitionGUID));
         }
 
         #endregion 
 
-        private const string _defaultMessage = "1 - Cadastrar requisição\n\n2 - Fechar requisição\n\n3 - Listar requisição";
+        private const string _defaultMessage = "default_message_test_01";
+        private const string _getRequisitionName = "get_requisition_name_test_01";
+        private const string _requisitionSuccess = "requisition_success_test_01";
+        private const string _getRequisitionType = "get_requisition_type_test_01";
+        private const string _getRequisitionGUID = "get_requisition_guid_test_01";
+        private const string _requisitionClosed = "requisition_closed_test_01";
     }
 }

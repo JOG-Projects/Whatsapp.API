@@ -35,7 +35,7 @@ namespace Whatsapp.API.Endpoints.WebhookRedirect
             return Results.Forbid();
         }
 
-        private static async Task<IResult> NotifierHandler(IWebhookNotifierServices notifier, TextMessageReceived textMessage)
+        private static async Task<IResult> NotifierHandler(IWebhookNotifierServices notifier, MessageReceived textMessage)
         {
             await notifier.NotifyEndpoints(textMessage);
             return Results.Ok();
