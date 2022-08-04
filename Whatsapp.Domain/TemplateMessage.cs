@@ -37,14 +37,22 @@ namespace Whatsapp.Domain
     }
     public class Component
     {
-        public Component(string type, List<Parameter> parameters)
+        public Component(string type, List<Parameter> parameters, string? subType = null, string? index = null)
         {
             Type = type;
+            SubType = subType;
+            Index = index;
             Parameters = parameters;
         }
 
         [JsonProperty("type")] 
-        public string Type { get; set; } //"body", "header", "footer"
+        public string Type { get; set; } //"body", "header", "footer", "button"
+
+        [JsonProperty("sub_type")]
+        public string? SubType { get; set; } //"body", "header", "footer", "button"
+
+        [JsonProperty("index")]
+        public string? Index { get; }
 
         [JsonProperty("parameters")]
         public List<Parameter> Parameters { get; set; }
