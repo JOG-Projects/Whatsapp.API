@@ -28,12 +28,6 @@ namespace Whatsapp.Services.HandleMessagesServices
 
         private async Task AnswerMessage(Change change)
         {
-            //switch (change.Value.)
-            //{
-            //    default:
-            //        break;
-            //}
-
             if (change.Value.Messages == null || change.Value.Contacts == null)
             {
                 return;
@@ -42,11 +36,10 @@ namespace Whatsapp.Services.HandleMessagesServices
             foreach ((var message, var contact) in change.Value.Messages.Zip(change.Value.Contacts))
             {
                 try
-                {
-                    string receivedMessage = message.Text.Body;
+                {                    
                     string from = contact.Wa_id;
 
-                    await _requisitionServices.HandleMessage(receivedMessage, from);
+                    await _requisitionServices.HandleMessage(message, from);
                 }
                 catch (Exception ex)
                 {
