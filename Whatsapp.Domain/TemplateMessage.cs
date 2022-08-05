@@ -58,19 +58,48 @@ namespace Whatsapp.Domain
         public List<Parameter> Parameters { get; set; }
     }
 
-    public class Parameter
+    public class TextParameter : Parameter
     {
-        public Parameter(string type, string text)
+        public TextParameter(string text) : base("text")
+        {
+            Text = text;
+        }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+    }
+
+    public class ImageParameter : Parameter
+    {
+        public ImageParameter(string link) : base("image")
+        {
+            Image = new Image(link);
+        }
+
+        [JsonProperty("image")]
+        public Image Image { get; }
+    }
+
+    public class Image
+    {
+        [JsonProperty("link")]
+        public string Link { get; }
+
+        public Image(string link)
+        {
+            Link = link;
+        }
+    }
+
+    public abstract class Parameter
+    {
+        public Parameter(string type)
         {
             Type = type;
-            Text = text;
         }
 
         [JsonProperty("type")]
         public string Type { get; set; } //"text", NAO MAPEADO "currency", NAO MAPEADO "date_time", NAO MAPEADO "image"
-
-        [JsonProperty("text")]
-        public string Text { get; set; }
     }
 
     public class Language
