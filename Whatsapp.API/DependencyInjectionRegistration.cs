@@ -5,6 +5,7 @@ using Whatsapp.Services.HandleMessagesServices;
 using Whatsapp.Services.SendMessages;
 using Whatsapp.Services.Webhook;
 using Whatsapp.Services.RequisitionService;
+using Whatsapp.Services.NotifyClientsService;
 
 namespace Whatsapp.API
 {
@@ -20,6 +21,8 @@ namespace Whatsapp.API
             services.AddSingleton<RequisitionServices>();
             services.AddSingleton<ClientRepository>();
             services.AddSingleton<WhatsappIntegrationConfiguration>();
+            services.AddSingleton<NotificiationRepository>();
+            services.AddSingleton<NotifyClientServices>();
         }
     }
 }

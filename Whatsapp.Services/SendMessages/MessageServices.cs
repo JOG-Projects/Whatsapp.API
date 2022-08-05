@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using Whatsapp.Domain;
 using Whatsapp.Domain.MediaMessages;
@@ -26,7 +25,7 @@ namespace Whatsapp.Services.SendMessages
             ConfigureHttpClient(configuration["Bearer"]);
         }
 
-        public async Task<SuccessResponse> SendMessage<T>(object viewModel)
+        public async Task<SuccessResponse> SendMessage<T>(BaseVM viewModel) where T : MessageBase
         {
             var message = _mapper.Map<T>(viewModel)!;
             var jsonResponse = await _httpClient.PostJsonAsync(_whatsappConfiguration.EndpointPostMessages, message);
@@ -48,7 +47,7 @@ namespace Whatsapp.Services.SendMessages
             return await SendMessage<T>(mediaVM);
         }
 
-        public Task<string> UploadMedia(ImageUploadRequestVM image)
+        public Task<SuccessResponse> UploadMedia(ImageUploadRequestVM image)
         {
             throw new NotImplementedException();
         }

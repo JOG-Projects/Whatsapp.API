@@ -7,12 +7,12 @@ namespace Whatsapp.Services.Contracts
 {
     public interface IMessageServices
     {
-        public Task<string> SendTextMessage(TextMessageVM message);
+        public Task<SuccessResponse> SendTextMessage(TextMessageVM message);
 
-        public Task<string> SendMediaMessageByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage;
+        public Task<SuccessResponse> SendMediaMessageByUrl<T>(MediaMessageVM mediaVM) where T : MediaMessage;
 
-        public Task<string> UploadMedia(ImageUploadRequestVM image);
+        public Task<SuccessResponse> UploadMedia(ImageUploadRequestVM image);
 
-        public Task<string> SendTemplateMessage(TemplateMessageVM templateMessageVM);
+        public Task<SuccessResponse> SendTemplateMessage(TemplateMessageVM templateMessageVM);
     }
 }
